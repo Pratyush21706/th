@@ -1,8 +1,64 @@
 // JavaScript to dynamically alter the modal content based on the card clicked
+const pdfjsLib = window['pdfjs-dist/build/pdf'];
+
+// Set PDF.js worker source
+pdfjsLib.GlobalWorkerOptions.workerSrc = 'https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.7.107/pdf.worker.min.js';
+const modalBody = document.getElementById('dynamicContentDisplay');
 
 // Add event listeners to each card
 const serviceCards = document.querySelectorAll('.services_card');
 
+const pdfLinks = {
+  'RDSO/RB Guidelines': [
+    { name: 'RDSO/RB Guidelines', url: 'https://memushedjhajha.in/PDF/08072024.pdf' },
+  ],
+  'Contact Details for all memo shed': [
+    { name: 'Contact Details', url: 'https://memushedjhajha.in/PDF/Contact_compressed.pdf' }
+  ],
+  'In House Developement': [
+    { name: 'Memories', url: 'https://memushedjhajha.in/PDF/INNOVATION_compressed.pdf' }
+  ],
+  'Contact Details for all memo shed': [
+    { name: 'Contact Details', url: 'https://memushedjhajha.in/PDF/Contact_compressed.pdf' }
+  ],
+  'Proposed Umbrella Works': [
+    { name: 'Proposed Umbrella Works ', url: 'https://memushedjhajha.in/PDF/PWP 25-26_compressed.pdf' }
+  ],
+  'KPA Related Issues': [
+    { name: 'Regarding axle lock', url: 'https://memushedjhajha.in/PDF/POH/1.pdf' },
+    { name: 'Assistance Required', url: 'https://memushedjhajha.in/PDF/POH/2.pdf' },
+    { name: 'Failure in MEMU ', url: 'https://memushedjhajha.in/PDF/POH/3.pdf' },
+    { name: 'Failure of air spring bellow ', url: 'https://memushedjhajha.in/PDF/POH/4.pdf' },
+    { name: 'Non-Fitment of Transparent Heat Shrinkable Sleeves ', url: 'https://memushedjhajha.in/PDF/POH/5.pdf' },
+    { name: 'Defect  deficiency found ', url: 'https://memushedjhajha.in/PDF/POH/6.pdf' },
+    { name: 'List of Traction Motors Fitted ', url: 'https://memushedjhajha.in/PDF/POH/7.pdf' },
+    { name: 'Assistance required to provide material ', url: 'https://memushedjhajha.in/PDF/POH/8.pdf' },
+    { name: 'Defect  deficiency -2 ', url: 'https://memushedjhajha.in/PDF/POH/6.pdf' },
+    { name: 'Request for attention to defects found in power cables', url: 'https://memushedjhajha.in/PDF/POH/10.pdf' },
+    
+  ],
+  'Fire Prevention': [
+    { name: 'Fire Prevention ', url: 'https://memushedjhajha.in/PDF/fire.pdf' }
+  ],
+  'Internal Visit/Audit': [
+    { name: 'Internal Visit/Audit ', url: 'https://memushedjhajha.in/PDF/audit.pdf' }
+  ],
+  'Safety Drives': [
+    { name: 'Safety Drives', url: 'https://memushedjhajha.in/PDF/safety%20drive.pdf' }
+  ],
+  'Layout': [
+    { name: 'Layout', url: 'https://memushedjhajha.in/PDF/layout.pdf' }
+  ],
+  'Sections': [
+    { name: 'Structure', url: 'https://memushedjhajha.in/PDF/structure.pdf' }
+  ],
+  
+  
+};
+
+let pdfDoc = null;
+          let currentPage = 1;
+          let scale = 1.5;
 serviceCards.forEach((card) => {
   card.addEventListener('click', () => {
     // Extract information from the clicked card
@@ -19,7 +75,32 @@ serviceCards.forEach((card) => {
     if (title === 'Maintainence Activity') {
         content = '<div class="container my-5 text-black"><ul class="list-unstyled"><li><strong>Type of activity by MEMU/CAR/SHED, Jhajha:-</strong></li><li>Trip Inspection (15+0/3 days)</li><li>IA (60+0/5 days)</li><li>IC (240+0/10 days)</li><li>POH (18 months) at KPA Workshop/E.Rly.</li><li><strong>Heavy repair: -</strong> Changing of Transformer, Pantograph, Compressor, VCB, Choketank, Traction Motor, Auxiliary Motors, Radiator, Bogie, Wheel & Axle when required.</li><li><strong>Revised periodicity of maintenance schedule -</strong> Rly. Bd. L. No. 95/Elec (G) 181/19F, Dtd. 14.08.19</li></ul></div>';
       } else if (title === 'POH Activity') {
-        content ='<div class="chart-container text-center" style="width: 100%; max-width: 700px; margin: 20px auto; border-left: 2px solid black; border-bottom: 2px solid black; position: relative; padding: 20px;"><div style="position: absolute; left: -40px; top: 5%; font-size: 14px; transform: translateY(-50%); color: blue;">150</div><div style="position: absolute; left: -40px; top: 30%; font-size: 14px; transform: translateY(-50%); color: blue;">100</div><div style="position: absolute; left: -40px; top: 55%; font-size: 14px; transform: translateY(-50%); color: blue;">50</div><div style="position: absolute; left: -40px; top: 95%; font-size: 14px; transform: translateY(-50%); color: blue;">0</div><h4 style="color: red; font-weight: bold;">POH ARISING FY WISE CHART</h4><div style="color: black; font-size: 14px;"><span style="color: red; font-weight: bold;">ARISING</span> | <span style="color: green; font-weight: bold;">DONE</span></div><div class="d-flex justify-content-between align-items-end" style="height: 300px; position: relative;"><div class="text-center" style="width: 20%; position: relative;"><div class="bg-danger text-white d-flex align-items-end justify-content-center" style="height: 90%; width: 45%; margin-right: 5%; border-radius: 5px;">136</div><div class="bg-success text-white d-flex align-items-end justify-content-center" style="height: 85%; width: 45%; border-radius: 5px;">128</div><p class="mt-2">2021-22</p></div><div class="text-center" style="width: 20%; position: relative;"><div class="bg-danger text-white d-flex align-items-end justify-content-center" style="height: 56.67%; width: 45%; margin-right: 5%; border-radius: 5px;">85</div><div class="bg-success text-white d-flex align-items-end justify-content-center" style="height: 59.33%; width: 45%; border-radius: 5px;">89</div><p class="mt-2">2022-23</p></div><div class="text-center" style="width: 20%; position: relative;"><div class="bg-danger text-white d-flex align-items-end justify-content-center" style="height: 83.33%; width: 45%; margin-right: 5%; border-radius: 5px;">126</div><div class="bg-success text-white d-flex align-items-end justify-content-center" style="height: 83.33%; width: 45%; border-radius: 5px;">125</div><p class="mt-2">2023-24</p></div><div class="text-center" style="width: 20%; position: relative;"><div class="bg-danger text-white d-flex align-items-end justify-content-center" style="height: 70%; width: 45%; margin-right: 5%; border-radius: 5px;">105</div><div class="bg-success text-white d-flex align-items-end justify-content-center" style="height: 38%; width: 45%; border-radius: 5px;">57</div><p class="mt-2">2024-25</p></div></div><p style="position: absolute; top: 50%; left: -70px; transform: translateY(-50%) rotate(-90deg); font-weight: bold; color: blue;">ARISING</p><p style="position: absolute; bottom: -30px; left: 50%; transform: translateX(-50%); font-weight: bold;">Years</p></div>'
+        content = `
+    <div>
+        <button class="btn btn-outline-warning" id="btnActivity" onclick="updateIframe('activity')">POH Activity Chart <STRONG>FY Wise</STRONG></button>
+        <button class="btn btn-outline-warning" id="btnSummary" onclick="updateIframe('summary')">POH Activity Chart <STRONG>Month Wise</STRONG> - FY 2024-25</button>
+    </div>
+    <br>
+    <div id="iframeContainer">
+        <div id="loadingAnimation" style="text-align: center; display: none;">
+            <img src="https://i.gifer.com/ZZ5H.gif" alt="Loading..." style="width: 50px; height: 50px;">
+            <p>Loading...</p>
+        </div>
+        <iframe id="iframeActivity" width="547" height="303" seamless frameborder="0" scrolling="no" style="display: none;" src="https://docs.google.com/spreadsheets/d/e/2PACX-1vQFG-XGNQQJOFGFQYx-o6ZghNfkudq7eqzBB3UJgbrUhXgogmb84oyRQ6kCLYwMJlc1p85md1MWX4lW/pubchart?oid=181140422&amp;format=interactive"></iframe>
+        <iframe id="iframeSummary" width="1225" height="343" seamless frameborder="0" scrolling="no" style="display: none;" src="https://docs.google.com/spreadsheets/d/e/2PACX-1vQFG-XGNQQJOFGFQYx-o6ZghNfkudq7eqzBB3UJgbrUhXgogmb84oyRQ6kCLYwMJlc1p85md1MWX4lW/pubchart?oid=2140993180&amp;format=interactive"></iframe>
+    </div>
+     <style>
+        .btn.active {
+            background-color: #rgb(230, 181, 7);
+            color: black;
+        }
+        .btn {
+            transition: opacity 0.3s;
+        }
+    </style>
+
+`;
+
     } else if (title === 'Asset Failure') {
         content = '<div class="container my-5"><h2>Assets Failure (As per ICMS)</h2><div class="row"><div class="col-12"><table class="table table-bordered"><thead><tr><th>SN</th><th>Head</th><th>2021-22</th><th>2022-23</th><th>2023-24</th><th>2024-25 Upto NOV</th><th>% Inc over last year</th></tr></thead><tbody><tr><td>1</td><td>No. of rakes in service</td><td>30</td><td>47</td><td>47</td><td>47</td><td>-</td></tr><tr><td>2</td><td>Asset failure of hallia based MEMU coaches</td><td>120</td><td>97</td><td>86</td><td>57</td><td>-7</td></tr><tr><td>3</td><td>Failure per rake</td><td>4</td><td>2</td><td>1.83</td><td>1.21</td><td>1.29</td></tr></tbody></table></div></div></div><br><div class="chart-container text-center" style="width: 100%; max-width: 600px; margin: 20px auto; border-left: 2px solid black; border-bottom: 2px solid black; position: relative; padding: 20px 0;">  <div style="position: absolute; left: -30px; top: 5%; font-size: 14px; transform: translateY(-50%); color: purple;">4</div> <div style="position: absolute; left: -30px; top: 30%; font-size: 14px; transform: translateY(-50%); color: purple;">3</div> <div style="position: absolute; left: -30px; top: 55%; font-size: 14px; transform: translateY(-50%); color: purple;">2</div> <div style="position: absolute; left: -30px; top: 80%; font-size: 14px; transform: translateY(-50%); color: purple;">1</div> <div style="position: absolute; left: -30px; top: 95%; font-size: 14px; transform: translateY(-50%); color: purple;">0</div>  <h4 style="color: purple; font-weight: bold;">Failure cases per rake</h4>  <div class="d-flex justify-content-between align-items-end" style="height: 300px; position: relative;">  <div class="bar text-center" style="width: 20%; position: relative;"> <div class="bg-primary text-white d-flex align-items-end justify-content-center" style="height: 100%; width: 100%; border-radius: 5px;">4</div> <p class="mt-2">2021-22</p> </div>  <div class="bar text-center" style="width: 20%; position: relative;"> <div class="bg-primary text-white d-flex align-items-end justify-content-center" style="height: 50%; width: 100%; border-radius: 5px;">2</div> <p class="mt-2">2022-23</p> </div>  <div class="bar text-center" style="width: 20%; position: relative;"> <div class="bg-primary text-white d-flex align-items-end justify-content-center" style="height: 45.75%; width: 100%; border-radius: 5px;">1.83</div> <p class="mt-2">2023-24</p> </div>  <div class="bar text-center" style="width: 20%; position: relative;"> <div class="bg-primary text-white d-flex align-items-end justify-content-center" style="height: 32.25%; width: 100%; border-radius: 5px;">1.29</div> <p class="mt-2">2024-25<br>(upto NOV-24)</p> </div> </div>  <p style="position: absolute; bottom: -30px; left: 50%; transform: translateX(-50%); font-weight: bold; color: purple;">Years</p> </div>';
       } else if (title === 'Failure Analysis') {
@@ -33,9 +114,143 @@ serviceCards.forEach((card) => {
       } else if (title === 'Awards') {
         content = '<p>Details about Awards...</p>';
       } else if (title === 'In House Developement') {
-        content = '<p>Details about Inhouse Development...</p>';
+        content = `
+          <div class="d-flex justify-content-center align-items-center" style="height: 300px;">
+            <div class="spinner-border text-primary" role="status">
+              <span class="visually-hidden">Loading...</span>
+            </div>
+          </div>
+        `;
+        const pdfSection = pdfLinks[title]; // Get the list of PDFs for the section
+      
+        const buttonsHtml = pdfSection
+          .map(
+            (pdf, index) =>
+              `<button class="btn ${
+                index === 0 ? 'btn-warning' : 'btn-outline-warning'
+              } me-2 pdf-nav-button" data-pdf-url="${pdf.url}" data-pdf-index="${index}">
+                ${pdf.name}
+              </button>`
+          )
+          .join('');
+      
+        const initialPdfUrl = pdfSection[0].url; // Load the first PDF by default
+      
+        setTimeout(() => {
+          modalBody.innerHTML = `
+            <div class="mb-3 d-flex justify-content-start flex-wrap">${buttonsHtml}</div>
+            <div class="d-flex justify-content-between align-items-center mb-2">
+              <button class="btn btn-outline-primary btn-sm" id="prevPage">Previous</button>
+              <span>Page <span id="currentPage">1</span> of <span id="totalPages">0</span></span>
+              <button class="btn btn-outline-primary btn-sm" id="nextPage">Next</button>
+              <div>
+                <button class="btn btn-outline-secondary btn-sm" id="zoomOut">-</button>
+                <button class="btn btn-outline-secondary btn-sm" id="zoomIn">+</button>
+              </div>
+            </div>
+            <canvas id="pdfCanvas" style="width: 100%; background-color: #f4f4f4;"></canvas>
+          `;
+      
+      
+          // Load the initial PDF
+          loadPdf(initialPdfUrl);
+      
+          // Add event listeners to navigation buttons
+          const navButtons = modalBody.querySelectorAll('.pdf-nav-button');
+          navButtons.forEach((button) => {
+            button.addEventListener('click', () => {
+              navButtons.forEach((btn) => btn.classList.replace('btn-warning', 'btn-outline-warning'));
+              button.classList.replace('btn-outline-warning', 'btn-warning');
+              const pdfUrl = button.getAttribute('data-pdf-url');
+              loadPdf(pdfUrl);
+            });
+          });
+      
+          // Pagination controls
+          document.getElementById('prevPage').addEventListener('click', () => {
+            if (currentPage > 1) {
+              currentPage -= 1;
+              renderPage();
+            }
+          });
+      
+          document.getElementById('nextPage').addEventListener('click', () => {
+            if (currentPage < pdfDoc.numPages) {
+              currentPage += 1;
+              renderPage();
+            }
+          });
+      
+        }, 1000);
       } else if (title === 'Fire Prevention') {
-        content = '<p>Details about Fire Prevention...</p>';
+        content = `
+          <div class="d-flex justify-content-center align-items-center" style="height: 300px;">
+            <div class="spinner-border text-primary" role="status">
+              <span class="visually-hidden">Loading...</span>
+            </div>
+          </div>
+        `;
+        const pdfSection = pdfLinks[title]; // Get the list of PDFs for the section
+      
+        const buttonsHtml = pdfSection
+          .map(
+            (pdf, index) =>
+              `<button class="btn ${
+                index === 0 ? 'btn-warning' : 'btn-outline-warning'
+              } me-2 pdf-nav-button" data-pdf-url="${pdf.url}" data-pdf-index="${index}">
+                ${pdf.name}
+              </button>`
+          )
+          .join('');
+      
+        const initialPdfUrl = pdfSection[0].url; // Load the first PDF by default
+      
+        setTimeout(() => {
+          modalBody.innerHTML = `
+            <div class="mb-3 d-flex justify-content-start flex-wrap">${buttonsHtml}</div>
+            <div class="d-flex justify-content-between align-items-center mb-2">
+              <button class="btn btn-outline-primary btn-sm" id="prevPage">Previous</button>
+              <span>Page <span id="currentPage">1</span> of <span id="totalPages">0</span></span>
+              <button class="btn btn-outline-primary btn-sm" id="nextPage">Next</button>
+              <div>
+                <button class="btn btn-outline-secondary btn-sm" id="zoomOut">-</button>
+                <button class="btn btn-outline-secondary btn-sm" id="zoomIn">+</button>
+              </div>
+            </div>
+            <canvas id="pdfCanvas" style="width: 100%; background-color: #f4f4f4;"></canvas>
+          `;
+      
+      
+          // Load the initial PDF
+          loadPdf(initialPdfUrl);
+      
+          // Add event listeners to navigation buttons
+          const navButtons = modalBody.querySelectorAll('.pdf-nav-button');
+          navButtons.forEach((button) => {
+            button.addEventListener('click', () => {
+              navButtons.forEach((btn) => btn.classList.replace('btn-warning', 'btn-outline-warning'));
+              button.classList.replace('btn-outline-warning', 'btn-warning');
+              const pdfUrl = button.getAttribute('data-pdf-url');
+              loadPdf(pdfUrl);
+            });
+          });
+      
+          // Pagination controls
+          document.getElementById('prevPage').addEventListener('click', () => {
+            if (currentPage > 1) {
+              currentPage -= 1;
+              renderPage();
+            }
+          });
+      
+          document.getElementById('nextPage').addEventListener('click', () => {
+            if (currentPage < pdfDoc.numPages) {
+              currentPage += 1;
+              renderPage();
+            }
+          });
+      
+        }, 1000);
       } else if (title === 'RSP') {
         content = '<p>Details about RSP...</p>';
       } else if (title === 'M&P') {
@@ -45,22 +260,427 @@ serviceCards.forEach((card) => {
       } else if (title === 'POH Related Complaints') {
         content = '<p>Details about POH Related Complaints...</p>';
       } else if (title === 'KPA Related Issues') {
-        content = '<p>Details about KPA Related Issues...</p>';
-      } else if (title === 'RDSO/RB Guidelines') {
-        content = '<p>Details about RDSO/RB Guidelines...</p>';
-      } else if (title === 'HQ/HP Instruction') {
+        content = `
+          <div class="d-flex justify-content-center align-items-center" style="height: 300px;">
+            <div class="spinner-border text-primary" role="status">
+              <span class="visually-hidden">Loading...</span>
+            </div>
+          </div>
+        `;
+        const pdfSection = pdfLinks[title]; // Get the list of PDFs for the section
+      
+        const buttonsHtml = pdfSection
+          .map(
+            (pdf, index) =>
+              `<button class="btn ${
+                index === 0 ? 'btn-warning' : 'btn-outline-warning'
+              } me-2 pdf-nav-button" data-pdf-url="${pdf.url}" data-pdf-index="${index}">
+                ${pdf.name}
+              </button>`
+          )
+          .join('');
+      
+        const initialPdfUrl = pdfSection[0].url; // Load the first PDF by default
+      
+        setTimeout(() => {
+          modalBody.innerHTML = `
+            <div class="mb-3 d-flex justify-content-start flex-wrap">${buttonsHtml}</div>
+            <div class="d-flex justify-content-between align-items-center mb-2">
+              <button class="btn btn-outline-primary btn-sm" id="prevPage">Previous</button>
+              <span>Page <span id="currentPage">1</span> of <span id="totalPages">0</span></span>
+              <button class="btn btn-outline-primary btn-sm" id="nextPage">Next</button>
+              <div>
+                <button class="btn btn-outline-secondary btn-sm" id="zoomOut">-</button>
+                <button class="btn btn-outline-secondary btn-sm" id="zoomIn">+</button>
+              </div>
+            </div>
+            <canvas id="pdfCanvas" style="width: 100%; background-color: #f4f4f4;"></canvas>
+          `;
+      
+      
+          // Load the initial PDF
+          loadPdf(initialPdfUrl);
+      
+          // Add event listeners to navigation buttons
+          const navButtons = modalBody.querySelectorAll('.pdf-nav-button');
+          navButtons.forEach((button) => {
+            button.addEventListener('click', () => {
+              navButtons.forEach((btn) => btn.classList.replace('btn-warning', 'btn-outline-warning'));
+              button.classList.replace('btn-outline-warning', 'btn-warning');
+              const pdfUrl = button.getAttribute('data-pdf-url');
+              loadPdf(pdfUrl);
+            });
+          });
+      
+          // Pagination controls
+          document.getElementById('prevPage').addEventListener('click', () => {
+            if (currentPage > 1) {
+              currentPage -= 1;
+              renderPage();
+            }
+          });
+      
+          document.getElementById('nextPage').addEventListener('click', () => {
+            if (currentPage < pdfDoc.numPages) {
+              currentPage += 1;
+              renderPage();
+            }
+          });
+      
+        }, 1000);
+      }  else if (title === 'RDSO/RB Guidelines') {
+        content = `
+          <div class="d-flex justify-content-center align-items-center" style="height: 300px;">
+            <div class="spinner-border text-primary" role="status">
+              <span class="visually-hidden">Loading...</span>
+            </div>
+          </div>
+        `;
+        const pdfSection = pdfLinks[title]; // Get the list of PDFs for the section
+      
+        const buttonsHtml = pdfSection
+          .map(
+            (pdf, index) =>
+              `<button class="btn ${
+                index === 0 ? 'btn-warning' : 'btn-outline-warning'
+              } me-2 pdf-nav-button" data-pdf-url="${pdf.url}" data-pdf-index="${index}">
+                ${pdf.name}
+              </button>`
+          )
+          .join('');
+      
+        const initialPdfUrl = pdfSection[0].url; // Load the first PDF by default
+      
+        setTimeout(() => {
+          modalBody.innerHTML = `
+            <div class="mb-3 d-flex justify-content-start flex-wrap">${buttonsHtml}</div>
+            <div class="d-flex justify-content-between align-items-center mb-2">
+              <button class="btn btn-outline-primary btn-sm" id="prevPage">Previous</button>
+              <span>Page <span id="currentPage">1</span> of <span id="totalPages">0</span></span>
+              <button class="btn btn-outline-primary btn-sm" id="nextPage">Next</button>
+              <div>
+                <button class="btn btn-outline-secondary btn-sm" id="zoomOut">-</button>
+                <button class="btn btn-outline-secondary btn-sm" id="zoomIn">+</button>
+              </div>
+            </div>
+            <canvas id="pdfCanvas" style="width: 100%; background-color: #f4f4f4;"></canvas>
+          `;
+      
+      
+          // Load the initial PDF
+          loadPdf(initialPdfUrl);
+      
+          // Add event listeners to navigation buttons
+          const navButtons = modalBody.querySelectorAll('.pdf-nav-button');
+          navButtons.forEach((button) => {
+            button.addEventListener('click', () => {
+              navButtons.forEach((btn) => btn.classList.replace('btn-warning', 'btn-outline-warning'));
+              button.classList.replace('btn-outline-warning', 'btn-warning');
+              const pdfUrl = button.getAttribute('data-pdf-url');
+              loadPdf(pdfUrl);
+            });
+          });
+      
+          // Pagination controls
+          document.getElementById('prevPage').addEventListener('click', () => {
+            if (currentPage > 1) {
+              currentPage -= 1;
+              renderPage();
+            }
+          });
+      
+          document.getElementById('nextPage').addEventListener('click', () => {
+            if (currentPage < pdfDoc.numPages) {
+              currentPage += 1;
+              renderPage();
+            }
+          });
+      
+        }, 1000);
+      }
+       else if (title === 'HQ/HP Instruction') {
         content = '<p>Details about HQ/HP Instruction...</p>';
       } else if (title === 'Contact Details for all memo shed') {
-        content = '<p>Contact Details for all Memo Shed...</p>';
+        content = `
+          <div class="d-flex justify-content-center align-items-center" style="height: 300px;">
+            <div class="spinner-border text-primary" role="status">
+              <span class="visually-hidden">Loading...</span>
+            </div>
+          </div>
+        `;
+        const pdfSection = pdfLinks[title]; // Get the list of PDFs for the section
+      
+        const buttonsHtml = pdfSection
+          .map(
+            (pdf, index) =>
+              `<button class="btn ${
+                index === 0 ? 'btn-warning' : 'btn-outline-warning'
+              } me-2 pdf-nav-button" data-pdf-url="${pdf.url}" data-pdf-index="${index}">
+                ${pdf.name}
+              </button>`
+          )
+          .join('');
+      
+        const initialPdfUrl = pdfSection[0].url; // Load the first PDF by default
+      
+        setTimeout(() => {
+          modalBody.innerHTML = `
+            <div class="mb-3 d-flex justify-content-start flex-wrap">${buttonsHtml}</div>
+            <div class="d-flex justify-content-between align-items-center mb-2">
+              <button class="btn btn-outline-primary btn-sm" id="prevPage">Previous</button>
+              <span>Page <span id="currentPage">1</span> of <span id="totalPages">0</span></span>
+              <button class="btn btn-outline-primary btn-sm" id="nextPage">Next</button>
+              <div>
+                <button class="btn btn-outline-secondary btn-sm" id="zoomOut">-</button>
+                <button class="btn btn-outline-secondary btn-sm" id="zoomIn">+</button>
+              </div>
+            </div>
+            <canvas id="pdfCanvas" style="width: 100%; background-color: #f4f4f4;"></canvas>
+          `;
+      
+      
+          // Load the initial PDF
+          loadPdf(initialPdfUrl);
+      
+          // Add event listeners to navigation buttons
+          const navButtons = modalBody.querySelectorAll('.pdf-nav-button');
+          navButtons.forEach((button) => {
+            button.addEventListener('click', () => {
+              navButtons.forEach((btn) => btn.classList.replace('btn-warning', 'btn-outline-warning'));
+              button.classList.replace('btn-outline-warning', 'btn-warning');
+              const pdfUrl = button.getAttribute('data-pdf-url');
+              loadPdf(pdfUrl);
+            });
+          });
+      
+          // Pagination controls
+          document.getElementById('prevPage').addEventListener('click', () => {
+            if (currentPage > 1) {
+              currentPage -= 1;
+              renderPage();
+            }
+          });
+      
+          document.getElementById('nextPage').addEventListener('click', () => {
+            if (currentPage < pdfDoc.numPages) {
+              currentPage += 1;
+              renderPage();
+            }
+          });
+      
+        }, 1000);
       } else if (title === 'VC/ Online Meetings') {
         content = '<p>Details about VC/Online Meetings...</p>';
       } else if (title === 'Internal Visit/Audit') {
-        content = '<p>Details about Internal Visit/Audit...</p>';
+        content = `
+          <div class="d-flex justify-content-center align-items-center" style="height: 300px;">
+            <div class="spinner-border text-primary" role="status">
+              <span class="visually-hidden">Loading...</span>
+            </div>
+          </div>
+        `;
+        const pdfSection = pdfLinks[title]; // Get the list of PDFs for the section
+      
+        const buttonsHtml = pdfSection
+          .map(
+            (pdf, index) =>
+              `<button class="btn ${
+                index === 0 ? 'btn-warning' : 'btn-outline-warning'
+              } me-2 pdf-nav-button" data-pdf-url="${pdf.url}" data-pdf-index="${index}">
+                ${pdf.name}
+              </button>`
+          )
+          .join('');
+      
+        const initialPdfUrl = pdfSection[0].url; // Load the first PDF by default
+      
+        setTimeout(() => {
+          modalBody.innerHTML = `
+            <div class="mb-3 d-flex justify-content-start flex-wrap">${buttonsHtml}</div>
+            <div class="d-flex justify-content-between align-items-center mb-2">
+              <button class="btn btn-outline-primary btn-sm" id="prevPage">Previous</button>
+              <span>Page <span id="currentPage">1</span> of <span id="totalPages">0</span></span>
+              <button class="btn btn-outline-primary btn-sm" id="nextPage">Next</button>
+              <div>
+                <button class="btn btn-outline-secondary btn-sm" id="zoomOut">-</button>
+                <button class="btn btn-outline-secondary btn-sm" id="zoomIn">+</button>
+              </div>
+            </div>
+            <canvas id="pdfCanvas" style="width: 100%; background-color: #f4f4f4;"></canvas>
+          `;
+      
+      
+          // Load the initial PDF
+          loadPdf(initialPdfUrl);
+      
+          // Add event listeners to navigation buttons
+          const navButtons = modalBody.querySelectorAll('.pdf-nav-button');
+          navButtons.forEach((button) => {
+            button.addEventListener('click', () => {
+              navButtons.forEach((btn) => btn.classList.replace('btn-warning', 'btn-outline-warning'));
+              button.classList.replace('btn-outline-warning', 'btn-warning');
+              const pdfUrl = button.getAttribute('data-pdf-url');
+              loadPdf(pdfUrl);
+            });
+          });
+      
+          // Pagination controls
+          document.getElementById('prevPage').addEventListener('click', () => {
+            if (currentPage > 1) {
+              currentPage -= 1;
+              renderPage();
+            }
+          });
+      
+          document.getElementById('nextPage').addEventListener('click', () => {
+            if (currentPage < pdfDoc.numPages) {
+              currentPage += 1;
+              renderPage();
+            }
+          });
+      
+        }, 1000);
       } else if (title === 'Safety Drives') {
-        content = '<p>Details about Safety Drives...</p>';
+        content = `
+          <div class="d-flex justify-content-center align-items-center" style="height: 300px;">
+            <div class="spinner-border text-primary" role="status">
+              <span class="visually-hidden">Loading...</span>
+            </div>
+          </div>
+        `;
+        const pdfSection = pdfLinks[title]; // Get the list of PDFs for the section
+      
+        const buttonsHtml = pdfSection
+          .map(
+            (pdf, index) =>
+              `<button class="btn ${
+                index === 0 ? 'btn-warning' : 'btn-outline-warning'
+              } me-2 pdf-nav-button" data-pdf-url="${pdf.url}" data-pdf-index="${index}">
+                ${pdf.name}
+              </button>`
+          )
+          .join('');
+      
+        const initialPdfUrl = pdfSection[0].url; // Load the first PDF by default
+      
+        setTimeout(() => {
+          modalBody.innerHTML = `
+            <div class="mb-3 d-flex justify-content-start flex-wrap">${buttonsHtml}</div>
+            <div class="d-flex justify-content-between align-items-center mb-2">
+              <button class="btn btn-outline-primary btn-sm" id="prevPage">Previous</button>
+              <span>Page <span id="currentPage">1</span> of <span id="totalPages">0</span></span>
+              <button class="btn btn-outline-primary btn-sm" id="nextPage">Next</button>
+              <div>
+                <button class="btn btn-outline-secondary btn-sm" id="zoomOut">-</button>
+                <button class="btn btn-outline-secondary btn-sm" id="zoomIn">+</button>
+              </div>
+            </div>
+            <canvas id="pdfCanvas" style="width: 100%; background-color: #f4f4f4;"></canvas>
+          `;
+      
+      
+          // Load the initial PDF
+          loadPdf(initialPdfUrl);
+      
+          // Add event listeners to navigation buttons
+          const navButtons = modalBody.querySelectorAll('.pdf-nav-button');
+          navButtons.forEach((button) => {
+            button.addEventListener('click', () => {
+              navButtons.forEach((btn) => btn.classList.replace('btn-warning', 'btn-outline-warning'));
+              button.classList.replace('btn-outline-warning', 'btn-warning');
+              const pdfUrl = button.getAttribute('data-pdf-url');
+              loadPdf(pdfUrl);
+            });
+          });
+      
+          // Pagination controls
+          document.getElementById('prevPage').addEventListener('click', () => {
+            if (currentPage > 1) {
+              currentPage -= 1;
+              renderPage();
+            }
+          });
+      
+          document.getElementById('nextPage').addEventListener('click', () => {
+            if (currentPage < pdfDoc.numPages) {
+              currentPage += 1;
+              renderPage();
+            }
+          });
+      
+        }, 1000);
       } else if (title === 'RM Complaints') {
           content = '<p>Details about RM Complaints...</p>';
-        } 
+        }   else if (title === 'Proposed Umbrella Works') {
+          content = `
+            <div class="d-flex justify-content-center align-items-center" style="height: 300px;">
+              <div class="spinner-border text-primary" role="status">
+                <span class="visually-hidden">Loading...</span>
+              </div>
+            </div>
+          `;
+          const pdfSection = pdfLinks[title]; // Get the list of PDFs for the section
+        
+          const buttonsHtml = pdfSection
+            .map(
+              (pdf, index) =>
+                `<button class="btn ${
+                  index === 0 ? 'btn-warning' : 'btn-outline-warning'
+                } me-2 pdf-nav-button" data-pdf-url="${pdf.url}" data-pdf-index="${index}">
+                  ${pdf.name}
+                </button>`
+            )
+            .join('');
+        
+          const initialPdfUrl = pdfSection[0].url; // Load the first PDF by default
+        
+          setTimeout(() => {
+            modalBody.innerHTML = `
+              <div class="mb-3 d-flex justify-content-start flex-wrap">${buttonsHtml}</div>
+              <div class="d-flex justify-content-between align-items-center mb-2">
+                <button class="btn btn-outline-primary btn-sm" id="prevPage">Previous</button>
+                <span>Page <span id="currentPage">1</span> of <span id="totalPages">0</span></span>
+                <button class="btn btn-outline-primary btn-sm" id="nextPage">Next</button>
+                <div>
+                  <button class="btn btn-outline-secondary btn-sm" id="zoomOut">-</button>
+                  <button class="btn btn-outline-secondary btn-sm" id="zoomIn">+</button>
+                </div>
+              </div>
+              <canvas id="pdfCanvas" style="width: 100%; background-color: #f4f4f4;"></canvas>
+            `;
+        
+        
+            // Load the initial PDF
+            loadPdf(initialPdfUrl);
+        
+            // Add event listeners to navigation buttons
+            const navButtons = modalBody.querySelectorAll('.pdf-nav-button');
+            navButtons.forEach((button) => {
+              button.addEventListener('click', () => {
+                navButtons.forEach((btn) => btn.classList.replace('btn-warning', 'btn-outline-warning'));
+                button.classList.replace('btn-outline-warning', 'btn-warning');
+                const pdfUrl = button.getAttribute('data-pdf-url');
+                loadPdf(pdfUrl);
+              });
+            });
+        
+            // Pagination controls
+            document.getElementById('prevPage').addEventListener('click', () => {
+              if (currentPage > 1) {
+                currentPage -= 1;
+                renderPage();
+              }
+            });
+        
+            document.getElementById('nextPage').addEventListener('click', () => {
+              if (currentPage < pdfDoc.numPages) {
+                currentPage += 1;
+                renderPage();
+              }
+            });
+        
+          }, 1000);
+        }
       else {
         content = '<p>No detailed information available.</p>';
       }
@@ -71,6 +691,104 @@ serviceCards.forEach((card) => {
     modal.show();
   });
 });
+
+          // Function to render a specific page
+          const renderPage = () => {
+            const canvas = document.getElementById('pdfCanvas');
+            const context = canvas.getContext('2d');
+      
+            // Clear the canvas
+            context.clearRect(0, 0, canvas.width, canvas.height);
+      
+            pdfDoc.getPage(currentPage).then((page) => {
+              const viewport = page.getViewport({ scale });
+      
+              canvas.width = viewport.width;
+              canvas.height = viewport.height;
+      
+              const renderContext = {
+                canvasContext: context,
+                viewport: viewport,
+              };
+              page.render(renderContext);
+      
+              // Update page indicator
+              document.getElementById('currentPage').innerText = currentPage;
+              document.getElementById('totalPages').innerText = pdfDoc.numPages;
+              console.log(scale)
+
+            });
+          };
+
+                    // Function to load a PDF and render the first page
+                    const loadPdf = (pdfUrl) => {
+                      pdfjsLib.getDocument(pdfUrl).promise.then((pdf) => {
+                        pdfDoc = pdf;
+                        currentPage = 1; // Reset to the first page
+                        renderPage();
+                      }).catch((error) => {
+                        console.error('Error loading PDF:', error);
+                        modalBody.innerHTML = '<p class="text-danger">Failed to load PDF.</p>';
+                      });
+                    };
+
+
+
+function showPDF() {
+  const pdfViewer = document.getElementById('pdfViewer');
+  const loadingAnimation = document.getElementById('loadingAnimation');
+  
+  // Show loading animation and hide PDF viewer initially
+  loadingAnimation.style.display = 'block';
+  pdfViewer.style.display = 'none';
+  
+  // Set the PDF source dynamically
+  pdfViewer.src = './assets/PDF/8072024.pdf'; // Replace with your PDF file's local path
+  
+  // Show PDF once it loads
+  pdfViewer.onload = function () {
+      loadingAnimation.style.display = 'none'; // Hide loading animation
+      pdfViewer.style.display = 'block'; // Show PDF
+  };
+}
+
+function updateIframe(type) {
+  const iframeActivity = document.getElementById('iframeActivity');
+  const iframeSummary = document.getElementById('iframeSummary');
+  const loadingAnimation = document.getElementById('loadingAnimation');
+  const btnActivity = document.getElementById('btnActivity');
+  const btnSummary = document.getElementById('btnSummary');
+  
+  // Reset buttons
+  btnActivity.classList.remove('active');
+  btnSummary.classList.remove('active');
+  btnActivity.style.opacity = '0.5';
+  btnSummary.style.opacity = '0.5';
+
+  // Hide all iframes and show loading animation
+  iframeActivity.style.display = 'none';
+  iframeSummary.style.display = 'none';
+  loadingAnimation.style.display = 'block';
+
+  // Determine which iframe to show
+  if (type === 'activity') {
+      btnActivity.classList.add('active');
+      btnActivity.style.opacity = '1'; // Highlight active button
+      iframeActivity.onload = function () {
+          loadingAnimation.style.display = 'none'; // Hide loading animation
+          iframeActivity.style.display = 'block'; // Show iframe
+      };
+      iframeActivity.src = iframeActivity.src; // Reload iframe
+  } else if (type === 'summary') {
+      btnSummary.classList.add('active');
+      btnSummary.style.opacity = '1'; // Highlight active button
+      iframeSummary.onload = function () {
+          loadingAnimation.style.display = 'none'; // Hide loading animation
+          iframeSummary.style.display = 'block'; // Show iframe
+      };
+      iframeSummary.src = iframeSummary.src; // Reload iframe
+  }
+}
 
 // Add event listeners to each link card
 const linkCards = document.querySelectorAll('a.d-flex.align-items-center');
@@ -91,7 +809,74 @@ linkCards.forEach((link) => {
     // Set dynamic content based on the title
     let content = '';
     if (title === 'Layout') {
-      content = '<p>Details about Layout...</p>';
+      content = `
+          <div class="d-flex justify-content-center align-items-center" style="height: 300px;">
+            <div class="spinner-border text-primary" role="status">
+              <span class="visually-hidden">Loading...</span>
+            </div>
+          </div>
+        `;
+        const pdfSection = pdfLinks[title]; // Get the list of PDFs for the section
+      
+        const buttonsHtml = pdfSection
+          .map(
+            (pdf, index) =>
+              `<button class="btn ${
+                index === 0 ? 'btn-warning' : 'btn-outline-warning'
+              } me-2 pdf-nav-button" data-pdf-url="${pdf.url}" data-pdf-index="${index}">
+                ${pdf.name}
+              </button>`
+          )
+          .join('');
+      
+        const initialPdfUrl = pdfSection[0].url; // Load the first PDF by default
+      
+        setTimeout(() => {
+          modalBody.innerHTML = `
+            <div class="mb-3 d-flex justify-content-start flex-wrap">${buttonsHtml}</div>
+            <div class="d-flex justify-content-between align-items-center mb-2">
+              <button class="btn btn-outline-primary btn-sm" id="prevPage">Previous</button>
+              <span>Page <span id="currentPage">1</span> of <span id="totalPages">0</span></span>
+              <button class="btn btn-outline-primary btn-sm" id="nextPage">Next</button>
+              <div>
+                <button class="btn btn-outline-secondary btn-sm" id="zoomOut">-</button>
+                <button class="btn btn-outline-secondary btn-sm" id="zoomIn">+</button>
+              </div>
+            </div>
+            <canvas id="pdfCanvas" style="width: 100%; background-color: #f4f4f4;"></canvas>
+          `;
+      
+      
+          // Load the initial PDF
+          loadPdf(initialPdfUrl);
+      
+          // Add event listeners to navigation buttons
+          const navButtons = modalBody.querySelectorAll('.pdf-nav-button');
+          navButtons.forEach((button) => {
+            button.addEventListener('click', () => {
+              navButtons.forEach((btn) => btn.classList.replace('btn-warning', 'btn-outline-warning'));
+              button.classList.replace('btn-outline-warning', 'btn-warning');
+              const pdfUrl = button.getAttribute('data-pdf-url');
+              loadPdf(pdfUrl);
+            });
+          });
+      
+          // Pagination controls
+          document.getElementById('prevPage').addEventListener('click', () => {
+            if (currentPage > 1) {
+              currentPage -= 1;
+              renderPage();
+            }
+          });
+      
+          document.getElementById('nextPage').addEventListener('click', () => {
+            if (currentPage < pdfDoc.numPages) {
+              currentPage += 1;
+              renderPage();
+            }
+          });
+      
+        }, 1000);
     } else if (title === 'Shed History / Glimpses') {
       content = '<div class="container-fluid"> <div class="row"> <div class="col-12"> <table class="table table-bordered table-striped"> <thead> <tr> <th>Event</th> <th>Date</th> </tr> </thead> <tbody> <tr> <td>Foundation of MEMU Car Shed, Jhajha</td> <td>14.02.1999</td> </tr> <tr> <td>Inauguration of MEMU Car Shed, Jhajha</td> <td>01.10.2003</td> </tr> <tr> <td>Arrival of 1st MEMU rake & Night Inspection</td> <td>13.10.2003</td> </tr> <tr> <td>Commissioning of 1st MEMU rake</td> <td>13.01.2004</td> </tr> <tr> <td>Weekly Inspection of 1st MEMU rake</td> <td>15.02.2004</td> </tr> <tr> <td>Monthly Inspection of 1st MEMU rake</td> <td>18.10.2004</td> </tr> <tr> <td>Commissioning of 25/05 Ton EOT crane</td> <td>07.01.2006</td> </tr> <tr> <td>Lifting of 1st MEMU Coach by Jamalpur Jack</td> <td>14.06.2006</td> </tr> <tr> <td>Introduction of 16 car MEMU rake</td> <td>25.07.2008</td> </tr> <tr> <td>Commissioning of CNC Under floor Lathe (B.G)</td> <td>27.08.2010</td> </tr> <tr> <td>Transformer changing of 1st MEMU done</td> <td>03.04.2013</td> </tr> <tr> <td>Commissioning of 1" DGA Machine</td> <td>25.09.2014</td> </tr> <tr> <td>Commissioning of Speedometer Test Bench</td> <td>20.10.2016</td> </tr> <tr> <td>Commissioning of 03 Phase BEML MEMU Rake</td> <td>22.12.2021</td> </tr> <tr> <td>Commissioning of Screw Air Compressor Capacity 500 CFM, 7.5 Kg/Cm2</td> <td>17.02.2022</td> </tr> <tr> <td>Commissioning of 01 set (05 Nos), 25 Ton capacity Synchronized lifting Jamalpur Jack</td> <td>30.07.2022</td> </tr> <tr> <td>Commissioning of transformer oil filtration plant capacity 3000 Lph</td> <td>08.09.2022</td> </tr> <tr> <td>Commissioning of 2nd DGA machine (under commissioning)</td> <td>03.10.2022</td> </tr> <tr> <td>Commissioning of EP test bench (Make-ESCORT)</td> <td>03.04.2023</td> </tr> <tr> <td>Automatic transformer oil BDV test apparatus received</td> <td>17.03.2023</td> </tr> <tr> <td>Automatic Coach Washing Plant commissioning</td> <td>30.11.2023</td> </tr> </tbody> </table> </div> </div> </div>';
     } else if (title === 'Historical Memories') {
@@ -105,7 +890,74 @@ linkCards.forEach((link) => {
     } else if (title === 'Rake Link / Train Service') {
       content = '<div class="table-responsive"><table class="table table-bordered table-striped"><thead><tr><th>#</th><th>Rake Link of MEMU Shed Jhajha</th></tr></thead><tbody><tr><td style="font-weight: bold;">1.</td><td>JAJ-PNBE-DDU-BRR-FUT-NES-FUT-RGD-DNR-RGD-FUT-BRR-BSR-DDU-PNBE-MZP-KIUL-PNBE-DDU-PNBE-AKA-PNBE-BSB-SGRL/BSB-SGTN-BSR-PNBE-GAYA-PNBE-KIUL-MKA-PNBE-BUI-PNBE-DDU-PNBE-BRA-SSM-ARA-SSM-ARA-PNBE-GAYA-PNBE-KIUL-GYA (16 Coach Rake -15 nos)</td></tr><tr><td style="font-weight: bold;">2.</td><td>GAYA-DDJ-DDU-DDS-GAYA-KIUL-GAYA-PNBE-GAYA-DDS-GAYA-DDU-SPG-DDU-GAYA-PNBE-GAYA-PNBE-GAYA-PNBE-GAYA-PNBE-Empty Coach/DNR-BIU-DNR-RPR-PNBE-BIU-PPTA-PNBE-BSR-PNBE-BAJ (16 Coach Rake -8 nos)</td></tr><tr><td style="font-weight: bold;">3.</td><td>SEE-KIR-SPJ-MP-SPJ-BIU-KIR-SPJ-MP-PPTA-DBG-RX-DBG-PPTA-MFP-NKE-MPP-PNBE-BIU-KIR-DNR-RX-MP-NKE-PPTA-NKE-MFP-NKE-MPP-SPJ-KIR-BIU-DBG-PNBE-BIR-PNBE-BAJ (12 Coach Rake -15 nos)</td></tr><tr><td style="font-weight: bold;">4.</td><td>JAJ-PNBE-PPTA-BIU-SPJ-SHC-SPJ-SHC-SPJ-SHC-SPJ-KIR-SEE-CPR-SEE-CPR-SEE (12 Coach Rake -8 nos)</td></tr></tbody></table></div>';
     } else if (title === 'Sections') {
-      content = '<div class="container"> <h2 class="text-center">SECTION OF MEMU CAR SHED, Jhajha:</h2> <ul class="list-group"> <li class="list-group-item">PPIO (Planning, Progress and Implementation Office)</li> <li class="list-group-item">Electrical Section</li> <li class="list-group-item">B&B Section(Mechanical + Pneumatic)</li> <li class="list-group-item">Special Repair Section & CNC Pit Wheel Lathe</li> <li class="list-group-item">Store Section</li> <li class="list-group-item">Technical Cell</li> </ul> </div>';
+      content = `
+          <div class="d-flex justify-content-center align-items-center" style="height: 300px;">
+            <div class="spinner-border text-primary" role="status">
+              <span class="visually-hidden">Loading...</span>
+            </div>
+          </div>
+        `;
+        const pdfSection = pdfLinks[title]; // Get the list of PDFs for the section
+      
+        const buttonsHtml = pdfSection
+          .map(
+            (pdf, index) =>
+              `<button class="btn ${
+                index === 0 ? 'btn-warning' : 'btn-outline-warning'
+              } me-2 pdf-nav-button" data-pdf-url="${pdf.url}" data-pdf-index="${index}">
+                ${pdf.name}
+              </button>`
+          )
+          .join('');
+      
+        const initialPdfUrl = pdfSection[0].url; // Load the first PDF by default
+      
+        setTimeout(() => {
+          modalBody.innerHTML = `
+            <div class="mb-3 d-flex justify-content-start flex-wrap">${buttonsHtml}</div>
+            <div class="d-flex justify-content-between align-items-center mb-2">
+              <button class="btn btn-outline-primary btn-sm" id="prevPage">Previous</button>
+              <span>Page <span id="currentPage">1</span> of <span id="totalPages">0</span></span>
+              <button class="btn btn-outline-primary btn-sm" id="nextPage">Next</button>
+              <div>
+                <button class="btn btn-outline-secondary btn-sm" id="zoomOut">-</button>
+                <button class="btn btn-outline-secondary btn-sm" id="zoomIn">+</button>
+              </div>
+            </div>
+            <canvas id="pdfCanvas" style="width: 100%; background-color: #f4f4f4;"></canvas>
+          `;
+      
+      
+          // Load the initial PDF
+          loadPdf(initialPdfUrl);
+      
+          // Add event listeners to navigation buttons
+          const navButtons = modalBody.querySelectorAll('.pdf-nav-button');
+          navButtons.forEach((button) => {
+            button.addEventListener('click', () => {
+              navButtons.forEach((btn) => btn.classList.replace('btn-warning', 'btn-outline-warning'));
+              button.classList.replace('btn-outline-warning', 'btn-warning');
+              const pdfUrl = button.getAttribute('data-pdf-url');
+              loadPdf(pdfUrl);
+            });
+          });
+      
+          // Pagination controls
+          document.getElementById('prevPage').addEventListener('click', () => {
+            if (currentPage > 1) {
+              currentPage -= 1;
+              renderPage();
+            }
+          });
+      
+          document.getElementById('nextPage').addEventListener('click', () => {
+            if (currentPage < pdfDoc.numPages) {
+              currentPage += 1;
+              renderPage();
+            }
+          });
+      
+        }, 1000);
     } else {
       content = '<p>No detailed information available.</p>';
     }
@@ -170,7 +1022,74 @@ linkCards1.forEach((link) => {
     } else if (title === 'Awards') {
       content = '<p>Details about Awards...</p>';
     } else if (title === 'In House Developement') {
-      content = '<p>Details about Inhouse Development...</p>';
+      content = `
+          <div class="d-flex justify-content-center align-items-center" style="height: 300px;">
+            <div class="spinner-border text-primary" role="status">
+              <span class="visually-hidden">Loading...</span>
+            </div>
+          </div>
+        `;
+        const pdfSection = pdfLinks[title]; // Get the list of PDFs for the section
+      
+        const buttonsHtml = pdfSection
+          .map(
+            (pdf, index) =>
+              `<button class="btn ${
+                index === 0 ? 'btn-warning' : 'btn-outline-warning'
+              } me-2 pdf-nav-button" data-pdf-url="${pdf.url}" data-pdf-index="${index}">
+                ${pdf.name}
+              </button>`
+          )
+          .join('');
+      
+        const initialPdfUrl = pdfSection[0].url; // Load the first PDF by default
+      
+        setTimeout(() => {
+          modalBody.innerHTML = `
+            <div class="mb-3 d-flex justify-content-start flex-wrap">${buttonsHtml}</div>
+            <div class="d-flex justify-content-between align-items-center mb-2">
+              <button class="btn btn-outline-primary btn-sm" id="prevPage">Previous</button>
+              <span>Page <span id="currentPage">1</span> of <span id="totalPages">0</span></span>
+              <button class="btn btn-outline-primary btn-sm" id="nextPage">Next</button>
+              <div>
+                <button class="btn btn-outline-secondary btn-sm" id="zoomOut">-</button>
+                <button class="btn btn-outline-secondary btn-sm" id="zoomIn">+</button>
+              </div>
+            </div>
+            <canvas id="pdfCanvas" style="width: 100%; background-color: #f4f4f4;"></canvas>
+          `;
+      
+      
+          // Load the initial PDF
+          loadPdf(initialPdfUrl);
+      
+          // Add event listeners to navigation buttons
+          const navButtons = modalBody.querySelectorAll('.pdf-nav-button');
+          navButtons.forEach((button) => {
+            button.addEventListener('click', () => {
+              navButtons.forEach((btn) => btn.classList.replace('btn-warning', 'btn-outline-warning'));
+              button.classList.replace('btn-outline-warning', 'btn-warning');
+              const pdfUrl = button.getAttribute('data-pdf-url');
+              loadPdf(pdfUrl);
+            });
+          });
+      
+          // Pagination controls
+          document.getElementById('prevPage').addEventListener('click', () => {
+            if (currentPage > 1) {
+              currentPage -= 1;
+              renderPage();
+            }
+          });
+      
+          document.getElementById('nextPage').addEventListener('click', () => {
+            if (currentPage < pdfDoc.numPages) {
+              currentPage += 1;
+              renderPage();
+            }
+          });
+      
+        }, 1000);
     } else if (title === 'Fire Prevention') {
       content = '<p>Details about Fire Prevention...</p>';
     } else if (title === 'RSP') {
@@ -182,7 +1101,74 @@ linkCards1.forEach((link) => {
     } else if (title === 'POH Related Complaints') {
       content = '<p>Details about POH Related Complaints...</p>';
     } else if (title === 'KPA Related Issues') {
-      content = '<p>Details about KPA Related Issues...</p>';
+      content = `
+          <div class="d-flex justify-content-center align-items-center" style="height: 300px;">
+            <div class="spinner-border text-primary" role="status">
+              <span class="visually-hidden">Loading...</span>
+            </div>
+          </div>
+        `;
+        const pdfSection = pdfLinks[title]; // Get the list of PDFs for the section
+      
+        const buttonsHtml = pdfSection
+          .map(
+            (pdf, index) =>
+              `<button class="btn ${
+                index === 0 ? 'btn-warning' : 'btn-outline-warning'
+              } me-2 pdf-nav-button" data-pdf-url="${pdf.url}" data-pdf-index="${index}">
+                ${pdf.name}
+              </button>`
+          )
+          .join('');
+      
+        const initialPdfUrl = pdfSection[0].url; // Load the first PDF by default
+      
+        setTimeout(() => {
+          modalBody.innerHTML = `
+            <div class="mb-3 d-flex justify-content-start flex-wrap">${buttonsHtml}</div>
+            <div class="d-flex justify-content-between align-items-center mb-2">
+              <button class="btn btn-outline-primary btn-sm" id="prevPage">Previous</button>
+              <span>Page <span id="currentPage">1</span> of <span id="totalPages">0</span></span>
+              <button class="btn btn-outline-primary btn-sm" id="nextPage">Next</button>
+              <div>
+                <button class="btn btn-outline-secondary btn-sm" id="zoomOut">-</button>
+                <button class="btn btn-outline-secondary btn-sm" id="zoomIn">+</button>
+              </div>
+            </div>
+            <canvas id="pdfCanvas" style="width: 100%; background-color: #f4f4f4;"></canvas>
+          `;
+      
+      
+          // Load the initial PDF
+          loadPdf(initialPdfUrl);
+      
+          // Add event listeners to navigation buttons
+          const navButtons = modalBody.querySelectorAll('.pdf-nav-button');
+          navButtons.forEach((button) => {
+            button.addEventListener('click', () => {
+              navButtons.forEach((btn) => btn.classList.replace('btn-warning', 'btn-outline-warning'));
+              button.classList.replace('btn-outline-warning', 'btn-warning');
+              const pdfUrl = button.getAttribute('data-pdf-url');
+              loadPdf(pdfUrl);
+            });
+          });
+      
+          // Pagination controls
+          document.getElementById('prevPage').addEventListener('click', () => {
+            if (currentPage > 1) {
+              currentPage -= 1;
+              renderPage();
+            }
+          });
+      
+          document.getElementById('nextPage').addEventListener('click', () => {
+            if (currentPage < pdfDoc.numPages) {
+              currentPage += 1;
+              renderPage();
+            }
+          });
+      
+        }, 1000);
     } else if (title === 'RDSO/RB Guidelines') {
       content = '<p>Details about RDSO/RB Guidelines...</p>';
     } else if (title === 'HQ/HP Instruction') {
@@ -209,6 +1195,10 @@ linkCards1.forEach((link) => {
     modal.show();
   });
 });
+
+
+
+
 
 
 // Apply CSS dynamically for modal width, centering, and scrollable content

@@ -15,6 +15,8 @@
     <link href="https://img1.digitallocker.gov.in/ux4g/UX4G@1.0.1/css/ux4g-min.css" rel="stylesheet" />
     <link href="assets/css/stylesheet.css" rel="stylesheet" />
     <link href="assets/css/accessibility-style.css" rel="stylesheet" />
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.7.107/pdf.min.js"></script>
+
     
   </head>
   <body>
@@ -116,6 +118,7 @@
           <nav class="navbar navbar-expand-lg bg-body-tertiary">
             <div class="container-fluid pr-0 pl-0">
               <a class="navbar-brand" href="#" style="flex: 1">
+                <img src="assets/images/logo.svg" alt="logo" loading="lazy" width="60" style="margin-left: -20px;"/>
                 <img src="assets/images/logo-f.png" alt="logo" loading="lazy" width="100"/>
                 <img
                   src="assets/images/logo-m.png"
@@ -123,7 +126,7 @@
                   style="width: 40vw; margin-left: 20px;"
                   
                 />
-                <img src="assets/images/logo.svg" alt="logo" loading="lazy" width="60" style="margin-left: 20px;"/>
+                <img src="./assets/images/ecr.jpeg" alt="logo" loading="lazy" width="100" style="margin-left: 20px;"/>
 
               </a>
 
@@ -270,7 +273,7 @@
         </div></div>
     </header>
     <div class="main-container">
-      <section id="Skip-to-Main-Content" class="explore" style="margin-top: -60px;">
+      <section id="Skip-to-Main-Content" class="explore" style="margin-top: -80px;">
         <div class="container position-relative hwl">
 
           <div class="explore_inner position-relative">
@@ -307,7 +310,7 @@
               <a href="" class="d-flex align-items-center">
                 <i
                   class="icon_2 rounded-circle d-flex align-items-center justify-content-center"
-                  ><span class="material-symbols-outlined pe1">responsive_layout </span></i
+                  ><span class="material-symbols-outlined ">responsive_layout </span></i
                 >
                 <strong>Infrastructure</strong>
                 <span class="material-symbols-outlined pe2">chevron_right</span>
@@ -330,7 +333,7 @@
                   </span></i
                 >
                 <strong> Staff Position</strong>
-                <span class="material-symbols-outlined">chevron_right</span>
+                <span class="material-symbols-outlined pe1">chevron_right</span>
               </a>
               <a href="" class="d-flex align-items-center">
                 <i
@@ -338,7 +341,7 @@
                   ><span class="material-symbols-outlined">train </span></i
                 >
                 <strong>Rake Link / Train Service</strong>
-                <span class="material-symbols-outlined">chevron_right</span>
+                <span class="material-symbols-outlined pe1">chevron_right</span>
               </a>
               <a href="" class="d-flex align-items-center">
                 <i
@@ -346,7 +349,7 @@
                   ><span class="material-symbols-outlined"> repartition </span></i
                 >
                 <strong>Sections</strong>
-                <span class="material-symbols-outlined">chevron_right</span>
+                <span class="material-symbols-outlined pe1">chevron_right</span>
               </a>
 
               
@@ -866,6 +869,7 @@
                     <button class="btn">Know More</button>
                   </div>
                 </div>
+
               </div>
             </div>
             <div class="item">
@@ -1041,7 +1045,65 @@
               </div>
             </div>
 
-           
+            <div class="item">
+              <div class="services_card position-relative mb-60">
+                <i
+                  class="position-absolute icon icon_2 rounded-circle d-flex align-items-center justify-content-center"
+                  ><span class="material-symbols-outlined">
+                    nest_doorbell_visitor
+                  </span></i
+                >
+                <div
+                  class="overflow-hidden services_card_inner position-relative"
+                >
+                  <div
+                    class="effect effect-2 position-absolute rounded-circle"
+                  ></div>
+                  <div
+                    class="services_card_content position-relative z-1 d-flex align-items-start justify-content-center flex-column none-visible "
+                  >
+                    <span>Visit</span>
+                    <h3>Internal Visit/Audit</h3>
+                    <h5>
+                      PDF<i class="rounded-circle"></i> Downloadable
+                    </h5>
+                  </div>
+                  <div class="services_card_content position-relative z-1 d-flex align-items-start justify-content-center flex-column hover-visible">
+                    <h3>Internal Visit/Audit</h3>
+                    <button class="btn">Know More</button>
+                  </div>
+                </div>
+              </div>
+              <div class="services_card position-relative">
+                <i
+                  class="position-absolute icon icon_1 rounded-circle d-flex align-items-center justify-content-center"
+                  ><span class="material-symbols-outlined">
+                    tram
+                  </span></i
+                >
+                <div
+                  class="overflow-hidden services_card_inner position-relative"
+                >
+                  <div
+                    class="effect effect-1 position-absolute rounded-circle"
+                  ></div>
+                  <div
+                    class="services_card_content position-relative z-1 d-flex align-items-start justify-content-center flex-column none-visible "
+                  >
+                    <span>Works</span>
+                    <h3>Proposed Umbrella Works</h3>
+                    <h5>
+                      PDF<i class="rounded-circle"></i> Downloadable
+                    </h5>
+                  </div>
+                  <div class="services_card_content position-relative z-1 d-flex align-items-start justify-content-center flex-column hover-visible">
+                    <h3>Proposed Umbrella Works</h3>
+                    <button class="btn">Know More</button>
+                  </div>
+                </div>
+              </div>
+            </div>
+
             
 
             
@@ -1060,7 +1122,7 @@
     </section>
     </div></div>
     
-    <section class="our-ministers" id="ppol" style=" padding-top:30px; margin-top:-100px; width:100%">
+    <section class="our-ministers" id="ppol" style=" padding-top:30px; margin-top:-20px; width:100%">
       <div class="container">
         <div class=" explore_head text-center">
           <h3>Our Guiding Light</h3>
@@ -1068,36 +1130,37 @@
         <div class="our-ministers-card">
             <div class="row">
               <div class="col-sm-5">
-                <div class="card-modi-ji">
-                  <img src="/assets/images/280x280.png" alt="modi ji">
-                  <p>Hon’ble Sr. DEE/MEMU/JAJ</p>
-                  <h3>Shri Sanjeev Kumar</h3>
+                <div class="card-modi-ji rxud">
+                  <img src="./assets/images/280x280.png" class="rxud" alt="modi ji">
+                  <p>Hon’ble Prime Minister</p>
+                  <h3>Shri Narendra Modir</h3>
                   
                 </div>
               </div>
               <div class="col-sm-7">
                 <div class="pmg-team">
                   
-                  <div class="pmg-team-content d-flex gap-3 align-items-center">
-                      <img src="/assets/images/156x156.png" alt="name">
+                  <div class="pmg-team-content d-flex gap-3 align-items-center rxud">
+                      <img src="./assets/images/156x156.png " alt="name" class="rxud">
                       <div class="pmg-team-title ashwini-ji">
-                        <p>AEE/MEMU/JHAJHA</p>
-                        <h3>Sri. KK Sharma</h3>
+                        <p> Minister of Railways of India
+                        </p>
+                        <h3>Ashwini Vaishnaw</h3>
                       </div>
                   </div>                
                     
-                    <div class="pmg-team-content d-flex flex-column align-items-center">
-                        <img src="/assets/images/120x120.png" alt="name">
+                    <div class="pmg-team-content d-flex flex-column align-items-center rxud">
+                        <img src="./assets/images/120x120.png" alt="name" class="rxud">
                         <div class="pmg-team-title minister-ji text-center">
-                          <p>ADME/MEMU/JHAJHA</p>
-                          <h3>Shri B.K Mangalam</h3>
+                          <p>Sr. DEE/MEMU/JAJ</p>
+                          <h3>Shri Sanjeev Kumar</h3>
                         </div>
                     </div>                 
                     
-                      <div class="pmg-team-content d-flex flex-column align-items-center">
-                        <img src="/assets/images/120x120.png" alt="name">
+                      <div class="pmg-team-content d-flex flex-column align-items-center rxud">
+                        <img src="./assets/images/120x10.png" alt="name" class="rxud">
                         <div class="pmg-team-title minister-ji text-center">                        
-                          <p>AMM/MEMU/JHAJHA </p>
+                          <p>GM/MEMU/JHAJHA </p>
                           <h3>Shri Arvind Kumar Sinha</h3>
                         </div>
                     </div>
@@ -1472,7 +1535,10 @@
               <span class="reset-icon"> </span>
               <span class="reset-btn-text">Reset All Settings</span>
           </button>
-          
+          <a href="https://www.ux4g.gov.in" target="_blank" class="copyright-text">
+              <span class="uwaw-features__item__name ux4g-copy ux4g-copyright">Created by Pratyush</span>
+              <!-- <img src="assets/images/ux4g-logo.svg" alt="logo" loading="lazy" width="93" height="25" /> -->
+          </a>
       </div>
   </div>
 </div>

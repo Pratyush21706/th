@@ -12,6 +12,7 @@
       href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght@100"
       rel="stylesheet"
     />
+    <link rel="icon" href="./assets/images/favicon.png" type="image/x-icon">
     <link href="https://img1.digitallocker.gov.in/ux4g/UX4G@1.0.1/css/ux4g-min.css" rel="stylesheet" />
     <link href="assets/css/stylesheet.css" rel="stylesheet" />
     <link href="assets/css/accessibility-style.css" rel="stylesheet" />
@@ -180,7 +181,13 @@
                       <li><a class="dropdown-item" href="#Skip-to-Main-Content"><strong>Shed History / Glimpses</strong></a></li>
                       <li><a class="dropdown-item" href="#Skip-to-Main-Content"><strong>Historical Memories</strong></a></li>
                       <li><a class="dropdown-item" href="#Skip-to-Main-Content"><strong>Infrastructure & Facilities:</strong></a></li>
-                      <li><a class="dropdown-item" href="#Skip-to-Main-Content"><strong>Man Power Position</strong></a></li>
+                      <li class="dropdown-submenu">
+                        <a class="dropdown-item" href="#">Workers   ></a>
+                        <ul class="dropdown-menu">
+                          <li><a class="dropdown-item" href="#">Man Power Position</a></li>
+                          <li><a class="dropdown-item" href="#">Staff Position</a></li>
+                        </ul>
+                      </li>
                       <li><a class="dropdown-item" href="#Skip-to-Main-Content"><strong>Rake Link / Train Service</strong></a></li>
                       <li><a class="dropdown-item" href="#Skip-to-Main-Content"><strong>Sections</strong></a></li>
                       <li>
@@ -197,17 +204,69 @@
                       data-bs-toggle="dropdown"
                       aria-expanded="false"
                     >
-                      Techenical Details
+                      Technical Details
                     </a>
                     <ul class="dropdown-menu">
-                      <li><a class="dropdown-item " href="#Skip-to-Main-Content"><strong>Maintainence Activity</strong></a></li>
-                      <li><a class="dropdown-item" href="#Skip-to-Main-Content"><strong>POH Activity</strong></a></li>
-                      <li><a class="dropdown-item" href="#Skip-to-Main-Content"><strong>Asset Failure</strong></a></li>
-                      <li><a class="dropdown-item" href="#Skip-to-Main-Content"><strong>Failure Analysis</strong></a></li>
-                      <li><a class="dropdown-item" href="#Skip-to-Main-Content"><strong>RAP</strong></a></li>
-                      <li><a class="dropdown-item" href="#Skip-to-Main-Content"><strong>Training</strong></a></li>
-                      <li><a class="dropdown-item" href="#Skip-to-Main-Content"><strong>Achievements</strong></a></li>
-                      
+                      <!-- Submenu Parent -->
+                      <li><a class="dropdown-item" href="#"><strong>Maintenance Activity</strong></a></li>
+                      <li><a class="dropdown-item" href="#"><strong>POH Activity</strong></a></li>
+
+                      <li class="dropdown-submenu">
+                        <a class="dropdown-item" href="#">Failure   ></a>
+                        <ul class="dropdown-menu">
+                          <li><a class="dropdown-item" href="#"><strong>Asset Failure</strong></a></li>
+                          <li><a class="dropdown-item" href="#"><strong>Failure Analysis</strong></a></li>
+                        </ul>
+                      </li>
+
+                      <li><a class="dropdown-item" href="#"><strong>Training</strong></a></li>
+
+                      <li class="dropdown-submenu">
+                        <a class="dropdown-item" href="#">Achievements   ></a>
+                        <ul class="dropdown-menu">
+                          <li><a class="dropdown-item" href="#"><strong>Achievements</strong></a></li>
+                          <li><a class="dropdown-item" href="#"><strong>Awards</strong></a></li>
+                          <li><a class="dropdown-item" href="#"><strong>In House Developement</strong></a></li>
+                          <li><a class="dropdown-item" href="#"><strong>Fire Prevention</strong></a></li>
+                        </ul>
+                      </li>
+
+                      <li class="dropdown-submenu">
+                        <a class="dropdown-item" href="#">Data   ></a>
+                        <ul class="dropdown-menu">
+                          <li><a class="dropdown-item" href="#"><strong>RSP</strong></a></li>
+                          <li><a class="dropdown-item" href="#"><strong>M&P</strong></a></li>
+                          <li><a class="dropdown-item" href="#"><strong>PWP</strong></a></li>
+                        </ul>
+                      </li>
+
+                      <li class="dropdown-submenu">
+                        <a class="dropdown-item" href="#">Issues and Complaints   ></a>
+                        <ul class="dropdown-menu">
+                          <li><a class="dropdown-item" href="#"><strong>POH Related Complaints</strong></a></li>
+                          <li><a class="dropdown-item" href="#"><strong>KPA Related Issues</strong></a></li>
+                        </ul>
+                      </li>
+                      <li class="dropdown-submenu">
+                        <a class="dropdown-item" href="#">Instructions and Guidelines   ></a>
+                        <ul class="dropdown-menu">
+                          <li><a class="dropdown-item" href="#"><strong>RDSO/RB Guidelines</strong></a></li>
+                          <li><a class="dropdown-item" href="#"><strong>HQ/HP Instruction</strong></a></li>
+                        </ul>
+                      </li>
+                      <li><a class="dropdown-item" href="#"><strong>Contact Details for all memo shed</strong></a></li>
+                      <li><a class="dropdown-item" href="#"><strong>VC/ Online Meetings</strong></a></li>
+
+                      <li class="dropdown-submenu">
+                        <a class="dropdown-item" href="#">Safety   ></a>
+                        <ul class="dropdown-menu">
+                          <li><a class="dropdown-item" href="#"><strong>Internal Visit/Audit</strong></a></li>
+                          <li><a class="dropdown-item" href="#"><strong>Safety Drives</strong></a></li>
+                        </ul>
+                      </li>
+                      <li><a class="dropdown-item" href="#"><strong>Proposed Umbrella Works</strong></a></li>
+
+
                     </ul>
                   </li>
 
@@ -244,9 +303,6 @@
                     <ul class="dropdown-menu">
                       <li><a class="dropdown-item" href="#glry">Gallery </a></li>
                       <li>
-                        <a class="dropdown-item" href="#fad">FAQ</a>
-                      </li>
-                      <li>
                         <a class="dropdown-item" href="#hede"
                           >Contact us</a
                         >
@@ -281,6 +337,26 @@
             <div
               class="services_chip d-flex flex-wrap align-items-center justify-content-center"
             >
+            <a href="" class="d-flex align-items-center ppio">
+              <i
+                class="icon_1 rounded-circle d-flex align-items-center justify-content-center"
+                ><span class="material-symbols-outlined"><span class="material-symbols-outlined">
+                  tactic
+                  </span></span></i
+              >
+              <strong>PPIO</strong>
+              <span class="material-symbols-outlined pe2">chevron_right</span>
+            </a>
+            <a href="" class="d-flex align-items-center">
+              <i
+                class="icon_8 rounded-circle d-flex align-items-center justify-content-center"
+                ><span class="material-symbols-outlined"><span class="material-symbols-outlined">
+                  wb_shade
+                  </span></span></i
+              >
+              <strong>Shed Holding</strong>
+              <span class="material-symbols-outlined pe2">chevron_right</span>
+            </a>
               <a href="" class="d-flex align-items-center">
                 <i
                   class="icon_1 rounded-circle d-flex align-items-center justify-content-center"
@@ -351,6 +427,14 @@
                 <strong>Sections</strong>
                 <span class="material-symbols-outlined pe1">chevron_right</span>
               </a>
+              <a href="" class="d-flex align-items-center">
+                <i
+                  class="icon_2 rounded-circle d-flex align-items-center justify-content-center"
+                  ><span class="material-symbols-outlined"> battery_change </span></i
+                >
+                <strong>List of SMI </strong>
+                <span class="material-symbols-outlined pe1">chevron_right</span>
+              </a>
 
               
             </div>
@@ -358,7 +442,7 @@
           </div>
         </div>
         <div class="tenders">
-          <div class="rounded-pill tenders-title" style="background-color: white; "><span class="glow">Tender</span></div>
+          <div class="rounded-pill tenders-title" style="background-color: white; border-radius:0px !important; "><span class="glow">Tender</span></div>
           <ul>
             <marquee direction="up">
             <li><a href="#"><span>08/12/24</span> - This is tender 1 which would have some details and shall only be seen in desktop mode</a></li>
@@ -858,14 +942,14 @@
                   <div
                     class="services_card_content position-relative z-1 d-flex align-items-start justify-content-center flex-column none-visible"
                   >
-                    <span>Complaints</span>
-                    <h3>RM Complaints</h3>
+                    <span>Planning</span>
+                    <h3>Proposed Umbrella Works</h3>
                     <h5>
                       PDF<i class="rounded-circle"></i> Downloadable
                     </h5>
                   </div>
                   <div class="services_card_content position-relative z-1 d-flex align-items-start justify-content-center flex-column hover-visible">
-                    <h3>RM Complaints</h3>
+                    <h3>Proposed Umbrella Works</h3>
                     <button class="btn">Know More</button>
                   </div>
                 </div>
@@ -1045,64 +1129,7 @@
               </div>
             </div>
 
-            <div class="item">
-              <div class="services_card position-relative mb-60">
-                <i
-                  class="position-absolute icon icon_2 rounded-circle d-flex align-items-center justify-content-center"
-                  ><span class="material-symbols-outlined">
-                    nest_doorbell_visitor
-                  </span></i
-                >
-                <div
-                  class="overflow-hidden services_card_inner position-relative"
-                >
-                  <div
-                    class="effect effect-2 position-absolute rounded-circle"
-                  ></div>
-                  <div
-                    class="services_card_content position-relative z-1 d-flex align-items-start justify-content-center flex-column none-visible "
-                  >
-                    <span>Visit</span>
-                    <h3>Internal Visit/Audit</h3>
-                    <h5>
-                      PDF<i class="rounded-circle"></i> Downloadable
-                    </h5>
-                  </div>
-                  <div class="services_card_content position-relative z-1 d-flex align-items-start justify-content-center flex-column hover-visible">
-                    <h3>Internal Visit/Audit</h3>
-                    <button class="btn">Know More</button>
-                  </div>
-                </div>
-              </div>
-              <div class="services_card position-relative">
-                <i
-                  class="position-absolute icon icon_1 rounded-circle d-flex align-items-center justify-content-center"
-                  ><span class="material-symbols-outlined">
-                    tram
-                  </span></i
-                >
-                <div
-                  class="overflow-hidden services_card_inner position-relative"
-                >
-                  <div
-                    class="effect effect-1 position-absolute rounded-circle"
-                  ></div>
-                  <div
-                    class="services_card_content position-relative z-1 d-flex align-items-start justify-content-center flex-column none-visible "
-                  >
-                    <span>Works</span>
-                    <h3>Proposed Umbrella Works</h3>
-                    <h5>
-                      PDF<i class="rounded-circle"></i> Downloadable
-                    </h5>
-                  </div>
-                  <div class="services_card_content position-relative z-1 d-flex align-items-start justify-content-center flex-column hover-visible">
-                    <h3>Proposed Umbrella Works</h3>
-                    <button class="btn">Know More</button>
-                  </div>
-                </div>
-              </div>
-            </div>
+           
 
             
 
@@ -1171,6 +1198,60 @@
         </div>
       </div>
    </section>
+   <div class="container">
+    <div class=" explore_head text-center">
+      <div class="rounded-pill">Images</div>
+      <h3>Gallery</h3>
+    </div></div>
+   <div class="container-fluid mt-4 gallery" style="background-color: #F7E9B4; padding:30px">
+    
+    <div class="gallery-row">
+      <div class="scrolling-wrapper">
+          <div class="gallery-images">
+            <img src="./assets/images/gallery/1.jpg" alt="Image 1" class="img-btn">
+            <img src="./assets/images/gallery/2.jpg" alt="Image 2" class="img-btn">
+            <img src="./assets/images/gallery/3.jpg" alt="Image 3" class="img-btn">
+            <img src="./assets/images/gallery/4.jpg" alt="Image 3" class="img-btn">
+            <img src="./assets/images/gallery/5.jpg" alt="Image 3" class="img-btn">
+              <!-- Duplicate Images for Seamless Scrolling -->
+              <img src="./assets/images/gallery/1.jpg" alt="Image 1" class="img-btn">
+        <img src="./assets/images/gallery/2.jpg" alt="Image 2" class="img-btn">
+        <img src="./assets/images/gallery/3.jpg" alt="Image 3" class="img-btn">
+        <img src="./assets/images/gallery/4.jpg" alt="Image 3" class="img-btn">
+        <img src="./assets/images/gallery/5.jpg" alt="Image 3" class="img-btn">
+          </div>
+      </div>
+  </div>
+
+  <!-- Second Row (Scrolling Opposite Direction) -->
+  <div class="gallery-row">
+      <div class="scrolling-wrapper" style="animation-direction: reverse;">
+          <div class="gallery-images">
+            <img src="./assets/images/gallery/6.jpg" alt="Image 1" class="img-btn">
+            <img src="./assets/images/gallery/7.webp" alt="Image 2" class="img-btn">
+            <img src="./assets/images/gallery/8.webp" alt="Image 3" class="img-btn">
+            <img src="./assets/images/gallery/9.webp" alt="Image 3" class="img-btn">
+            <img src="./assets/images/gallery/10.webp" alt="Image 3" class="img-btn">
+            <img src="./assets/images/gallery/13.jpeg" alt="Image 3" class="img-btn">
+            <img src="./assets/images/gallery/14.jpeg" alt="Image 3" class="img-btn">
+              <!-- Duplicate Images for Seamless Scrolling -->
+              <img src="./assets/images/gallery/6.jpg" alt="Image 1" class="img-btn">
+              <img src="./assets/images/gallery/7.webp" alt="Image 2" class="img-btn">
+              <img src="./assets/images/gallery/8.webp" alt="Image 3" class="img-btn">
+              <img src="./assets/images/gallery/9.webp" alt="Image 3" class="img-btn">
+              <img src="./assets/images/gallery/10.webp" alt="Image 3" class="img-btn">
+              <img src="./assets/images/gallery/13.jpeg" alt="Image 3" class="img-btn">
+              <img src="./assets/images/gallery/14.jpeg" alt="Image 3" class="img-btn">
+          </div>
+      </div>
+  </div>
+</div>
+
+
+
+
+
+
    <section class="application" id="fullx">
     <div class="container position-relative">
       <div class="application-effect position-absolute"></div>
@@ -1231,7 +1312,7 @@
             </div>
         </div>
           <div class="war-right d-none d-sm-block">
-              <img src="assets/images/waw-1.webp" alt="img" loading="lazy">
+              <img src="assets/images/ABUS.png" alt="img" loading="lazy">
           </div>
         </div>
       </div>
@@ -1251,15 +1332,12 @@
           </div>
           <div class="modal-footer">
             <button type="button" class="btn btn-danger" data-bs-dismiss="modal">Close</button>
-            <button type="button" class="btn btn-primary">Save changes</button>
           </div>
         </div>
       </div>
     </div>
 
 
-
-    
 
    
     
@@ -1277,7 +1355,7 @@
                   </h3>
                   <p class="text-white fs-18 mb-0">Reach out to us and we will get back to you</p>
               </div>
-              <a href="/contact-us.php" class="btn btn-outline-dark border-white text-white rounded-pill" contenteditable="false" style="cursor: pointer;">Get in touch
+              <a href="https://wa.me/+918709954749" class="btn btn-outline-dark border-white text-white rounded-pill" contenteditable="false" style="cursor: pointer;">Get in touch
                   <svg width="24" height="24" viewBox="0 0 24 24" fill="none">
                       <mask id="mask0_714_2854" maskUnits="userSpaceOnUse" x="0" y="0" width="24" height="24">
                           <rect width="24" height="24" fill="#fff"></rect>
@@ -1297,19 +1375,7 @@
       <div class="footer-row">
           <div class="col-list">
             <img src="https://pratyush21706.github.io/memo-shade-/logo.jpeg" alt="logo" loading="lazy" class="mb-30">
-            <div class="footer_social">
-                  
-              <a href="" target="_blank" aria-label="visit facebook site" contenteditable="false" style="cursor: pointer;">
-                  <img src="assets/images/fb.svg" alt="social">
-              </a>
-              <a href="" target="_blank" aria-label="visit twitter site" contenteditable="false" style="cursor: pointer;">
-                <img src="assets/images/tw.svg" alt="social">
-              </a>
-              <a href="" target="_blank" aria-label="visit youtube site" contenteditable="false" style="cursor: pointer;">
-                <img src="assets/images/yt.svg" alt="social">
-              </a>
-
-          </div>             
+                        
               
               <!-- <button class=" rounded btn-last-update rounded-pill"></button> -->
           </div>
@@ -1324,22 +1390,26 @@
               </ul>                
           </div>
           <div class="col-list">
-            <h3>Citizens</h3>
+            <h3>People</h3>
             <ul>               
-                <li>Sanjeev Singh</li>
-                <li>Sanjeev Singh</li>                  
-                <li>Sanjeev Singh</li>                  
-                <li>Sanjeev Singh</li>                  
+                <li>Ashok Kumar</li>
+                <li> Rajesh Kumar</li>                  
+                <li>Sanjay Kr. Singh</li>                  
+                <li>Binod Kr. Jha</li>                  
+                <li>Deepak Kumar</li>                  
+                <li>Manoranjan Kr</li>                  
 
             </ul>                  
           </div>
           <div class="col-list">
             <h3>Important Contacts</h3>
             <ul>
-               <li>+91 808237409</li>  
-               <li>+91 808237409</li>                 
-               <li>+91 808237409</li>                 
-               <li>+91 808237409</li>                 
+               <li>+91 7766901719</li>  
+               <li>+91 9771449358</li>                 
+               <li>+91 9771449355</li>                 
+               <li>+91 7766901789</li>                 
+               <li>+91 9771449347</li>                 
+               <li>+91 7766918393</li>                 
 
                                    
             </ul>                    
@@ -1347,7 +1417,8 @@
           <div class="col-list">
             <h3>Find Us</h3>
             <ul>
-                <li>Somewhere on the streets of Jhajha you can find us near the pahad</li>
+                <li>
+                  The Memu Shed in Jhajha is located near the Jhajha Railway Station in Jamui district, Bihar, housing MEMU trains for operations.</li>
                                    
             </ul>                  
                               
@@ -1361,13 +1432,9 @@
  <div class="container">
   <div class="d-flex align-items-center justify-content-between flex-sm-row flex-column">
     <div class="copyright text-white">
-      Copyright © 2024 - All Rights Reserved - DEVPRATYUSH
+      Copyright © 2024 - All Rights Reserved - <a class="text-white" style="font-size: 1rem; font-weight:600" href="https://devpratyush.in.net/">Pratyush</a>
     </div>
-    <ul>
-      <li><a href="">Terms & Conditions</a></li>
-      <li><a href="">Privacy Policy</a></li>
-      <li><a href="">Contact Us</a></li>   
-    </ul>
+    
 </div>
  </div>
 </div>
@@ -1551,7 +1618,7 @@
 <!-- JS here -->
 <script src="https://img1.digitallocker.gov.in/nad/v-22/assets/js/jquery.min.js"></script>
 <script src="https://img1.digitallocker.gov.in/ux4g/UX4G@1.0.0-beta1/js/ux4g.bundle.min.js"></script>
-<script src="script.js"></script>
+<script src="script.js" type="module"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.4.0/jspdf.umd.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf-autotable/3.5.25/jspdf.plugin.autotable.min.js"></script>
 <!-- jsPDF Library -->
@@ -1559,6 +1626,10 @@
 
 <!-- html2pdf.js Library -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.9.2/html2pdf.bundle.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script>
+<script src="https://www.gstatic.com/firebasejs/9.21.0/firebase-app-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/9.21.0/firebase-database-compat.js"></script>
+
 
 <script type="text/javascript">
   function googleTranslateElementInit() {

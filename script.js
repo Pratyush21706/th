@@ -113,30 +113,12 @@ const pdfLinks = {
     { name: 'List of SMI', url: 'https://rdso.indianrailways.gov.in/view_section.jsp?lang=0&id=0,4,6523,7162' }
   ],
   'PPIO': [
-    { name: 'PPIO daily maintenance program & POH plan', url: 'Fetching Data' },
-    { name: 'PPIO - MEMU COACH POSITION (Daily Position)', url: 'Fetching Data' },
+    { name: 'PPIO daily maintenance program & POH plan', url: 'https://docs.google.com/spreadsheets/d/e/2PACX-1vRn0kQgOdCG2lK3ZI8HDcDIlcL6-H_dQpdxh6yv9_hAMzlrze38GeFyMbTUnRjxIQnFNej6TAk7-Mj0/pubhtml?gid=1962048861&amp;single=true&amp;widget=true&amp;headers=false' },
+    { name: 'PPIO - MEMU COACH POSITION (Daily Position)', url: 'https://docs.google.com/spreadsheets/d/e/2PACX-1vRZ6MFmg44M3nDhP5KwwWn3shy4HWYWgqpVhG3DU4jsxavXVJki08-5dA4ikNA4vA/pubhtml?gid=688664547&amp;single=true&amp;widget=true&amp;headers=false' },
   ],
 };
 
-// Function to fetch PPIO data from Firebase
-const fetchPPIOData = async () => {
-  const today = new Date().toISOString().split('T')[0];
-  const dataRef = db.ref(`PPIOData/${today}`);
-  try {
-    const snapshot = await dataRef.get();
-    if (snapshot.exists()) {
-      const data = snapshot.val();
-      pdfLinks.PPIO[0].url = data.PPIO1 || 'Fetching Data';
-      pdfLinks.PPIO[1].url = data.PPIO2 || 'Fetching Data';
-      console.log(pdfLinks.PPIO[0])
-    }
-  } catch (error) {
-    console.error('Error fetching PPIO data:', error);
-  }
-};
 
-// Call the fetch function on load
-fetchPPIOData();
 
 let pdfDoc = null;
           let currentPage = 1;

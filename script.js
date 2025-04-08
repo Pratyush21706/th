@@ -121,7 +121,7 @@ const pdfLinks = {
 
 
 let pdfDoc = null;
-          let currentPage = 1;
+          let currentPage = 1; 
           let scale = 1.5;
 serviceCards.forEach((card) => {
   card.addEventListener('click', () => {

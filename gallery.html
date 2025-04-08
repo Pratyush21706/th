@@ -1,0 +1,483 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Memu Shed Jhajha</title>
+    <link
+      rel="stylesheet"
+      href="https://img1.digitallocker.gov.in/nad/v-22/assets/css/fontawesome.min.css"
+    />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght@100"
+      rel="stylesheet"
+    />
+    <link rel="icon" href="./assets/images/favicon.png" type="image/x-icon">
+    <link href="https://img1.digitallocker.gov.in/ux4g/UX4G@1.0.1/css/ux4g-min.css" rel="stylesheet" />
+    <link href="assets/css/stylesheet.css" rel="stylesheet" />
+    <link href="assets/css/accessibility-style.css" rel="stylesheet" />
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.7.107/pdf.min.js"></script>
+
+    
+  </head>
+  <style>
+    body { font-family: Arial, sans-serif; margin: 0; padding: 20px;  }
+    .gallery-container { 
+        display: grid;
+        grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+        gap: 10px;
+        justify-content: center;
+    }
+    .gallery-item { 
+        cursor: pointer; 
+        transition: transform 0.3s; 
+        overflow: hidden; 
+        border-radius: 8px;
+    }
+    .gallery-item:hover { transform: scale(1.05); }
+    .gallery-item img { 
+        width: 100%; 
+        height: 250px; 
+        object-fit: cover; 
+        border-radius: 8px; 
+    }
+    .custom-modal { 
+        display: none;
+        position: fixed;
+        top: 0; left: 0;
+        width: 100vw; height: 100vh;
+        background: rgba(0, 0, 0, 0.8);
+        justify-content: center;
+        align-items: center;
+    }
+    .custom-modal.show { display: flex; }
+    .custom-modal img { 
+        max-width: 90vw;
+        max-height: 90vh;
+        border-radius: 8px;
+        transition: transform 0.3s;
+    }
+    .custom-modal .close-btn {
+        position: absolute;
+        top: 20px; right: 20px;
+        background: none;
+        border: none;
+        font-size: 30px;
+        color: white;
+        cursor: pointer;
+    }
+    .custom-modal .nav-btn {
+        position: absolute;
+        top: 50%;
+        transform: translateY(-50%);
+        background: none;
+        border: none;
+        font-size: 40px;
+        color: white;
+        cursor: pointer;
+    }
+    .custom-modal .prev-btn { left: 10px; }
+    .custom-modal .next-btn { right: 10px; }
+    .custom-modal .zoom-controls {
+        position: absolute;
+        bottom: 20px;
+        left: 50%;
+        transform: translateX(-50%);
+        display: flex;
+        gap: 15px;
+    }
+    .custom-modal .zoom-btn {
+        background: none;
+        border: none;
+        font-size: 30px;
+        color: white;
+        cursor: pointer;
+    }
+</style>
+
+  <body>
+    <div class="main-wrapper" style="background-color: #fff; height: fit-content; padding:20px">
+<div class="header-top px-2">
+    <div class="container">
+      <div class="row">
+        <div
+          class="col-xl-6 col-lg-3 d-flex col-sm-6 col-7 align-items-left"
+        >
+          <span class="goi">
+            <a href="https://www.india.gov.in/" target="_blank" class="goi">
+              <img
+                src="https://doc.ux4g.gov.in/assets/img/icon/in-flag.png"
+                class="img-fluid"
+                alt="indian flag"
+                loading="lazy"
+              /><strong>Government of India</strong>
+            </a>
+          </span>
+        </div>
+        <div class="col-xl-6 col-lg-9 col-sm-6 col-5 text-end">
+          <a
+            href="#Skip-to-Main-Content"
+            class="pr-5 d-none d-sm-inline"
+            style="color: #fff"
+          >
+            Skip to Main Content
+          </a>
+          <span class="partition d-none d-md-inline">|</span>
+          <span class="d-none d-md-inline">
+            <button
+              role="button"
+              id="btn-decrease"
+              class="font01"
+              onclick="decrease()"
+            >
+              -A
+            </button>
+            <button
+              role="button"
+              id="btn-orig"
+              class="font01 active01"
+              onclick="reset()"
+            >
+              A
+            </button>
+
+            <button
+              role="button"
+              id="btn-increase"
+              class="font01"
+              onclick="increase()"
+            >
+              A+
+            </button>
+            <span class="partition">|</span>
+          </span>
+
+          <!-- <span class="light_dark_icon">                       
+                        <input type="checkbox" class="light_mode" id="checkbox">
+                        <label for="checkbox" class="checkbox-label">
+                            <i class="fas fa-moon"></i>
+                            <i class="fas fa-sun"></i>
+                            <span class="ball"></span>
+                        </label>
+                    </span> -->
+
+          <span class="language01">
+            <form
+              id="langForm"
+              method="POST"
+              class="d-flex align-items-center"
+            >
+              <i class="glog-lang">
+                <img src="assets/images/glob.svg" alt="glob" />
+              </i>
+
+            </form>
+          </span>
+          <span class="d-none d-sm-inline-block">
+            <a
+              class="skip01"
+              id="uw-widget-custom-trigger"
+              contenteditable="false"
+              style="cursor: pointer"
+            >
+              <img src="assets/images/accessible.svg" alt="Accessibility" />
+              <strong>More</strong>
+            </a>
+          </span>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div id="header-middle" class="header-area header-white px-2 pt-2 pb-2 mt-sm-0">
+    <div class="container">
+      <nav class="navbar navbar-expand-lg bg-body-tertiary">
+        <div class="container-fluid pr-0 pl-0">
+          <a class="navbar-brand" href="#" style="flex: 1">
+            <img src="assets/images/logo.svg" alt="logo" loading="lazy" width="60" style="margin-left: -20px;"/>
+            <img src="assets/images/logo-f.png" alt="logo" loading="lazy" width="100"/>
+            <img
+              src="assets/images/logo-m.png"
+              alt="dummy"
+              style="width: 40vw; margin-left: 20px;"
+              
+            />
+            <img src="./assets/images/ecr.jpeg" alt="logo" loading="lazy" width="100" style="margin-left: 20px;"/>
+
+          </a>
+
+         
+          
+        </div>
+      </nav>
+    </div>
+  </div>
+  <div class="header-top ">
+    <div class="container mexy"  >
+      <nav class="navbar navbar-expand-lg bg-body-tertiary">
+        <div class="container-fluid pr-0 pl-0">
+          
+
+          <button
+            class="navbar-toggler"
+            type="button"
+            data-bs-toggle="collapse"
+            data-bs-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent"
+            aria-expanded="false"
+            aria-label="Toggle navigation"
+          >
+            <span class="navbar-toggler-icon"></span>
+          </button>
+          <div class="collapse navbar-collapse" id="navbarSupportedContent">
+            <ul class="navbar-nav ms-auto mb-2 mb-lg-0 pr-25">
+              <li class="nav-item">
+                <a class="nav-link" aria-current="page" href="/index.html"
+                  >Home</a
+                >
+              </li>
+              <li class="nav-item">
+                <a class="nav-link" aria-current="page" href="#abus"
+                  >About</a
+                >
+              </li>
+              <li class="nav-item dropdown">
+                <a
+                  class="nav-link dropdown-toggle"
+                  href="#"
+                  role="button"
+                  data-bs-toggle="dropdown"
+                  aria-expanded="false"
+                >
+                  Overview
+                </a>
+                <ul class="dropdown-menu">
+                  <li><a class="dropdown-item " href="#Skip-to-Main-Content"><strong>Layout</strong></a></li>
+                  <li><a class="dropdown-item" href="#Skip-to-Main-Content"><strong>Shed History / Glimpses</strong></a></li>
+                  <li><a class="dropdown-item" href="#Skip-to-Main-Content"><strong>Historical Memories</strong></a></li>
+                  <li><a class="dropdown-item" href="#Skip-to-Main-Content"><strong>Infrastructure & Facilities:</strong></a></li>
+                  <li class="dropdown-submenu">
+                    <a class="dropdown-item" href="#">Workers   ></a>
+                    <ul class="dropdown-menu">
+                      <li><a class="dropdown-item" href="#">Man Power Position</a></li>
+                      <li><a class="dropdown-item" href="#">Staff Position</a></li>
+                    </ul>
+                  </li>
+                  <li><a class="dropdown-item" href="#Skip-to-Main-Content"><strong>Rake Link / Train Service</strong></a></li>
+                  <li><a class="dropdown-item" href="#Skip-to-Main-Content"><strong>Sections</strong></a></li>
+                  <li>
+                    <!-- <a class="dropdown-item" href="#meme">Technical Specifications</a> -->
+                  </li>
+                </ul>
+              </li>
+
+              <li class="nav-item dropdown">
+                <a
+                  class="nav-link dropdown-toggle"
+                  href="#"
+                  role="button"
+                  data-bs-toggle="dropdown"
+                  aria-expanded="false"
+                >
+                  Technical Details
+                </a>
+                <ul class="dropdown-menu">
+                  <!-- Submenu Parent -->
+                  <li><a class="dropdown-item" href="#"><strong>Maintenance Activity</strong></a></li>
+                  <li><a class="dropdown-item" href="#"><strong>POH Activity</strong></a></li>
+
+                  <li class="dropdown-submenu">
+                    <a class="dropdown-item" href="#">Failure   ></a>
+                    <ul class="dropdown-menu">
+                      <li><a class="dropdown-item" href="#"><strong>Asset Failure</strong></a></li>
+                      <li><a class="dropdown-item" href="#"><strong>Failure Analysis</strong></a></li>
+                    </ul>
+                  </li>
+
+                  <li><a class="dropdown-item" href="#"><strong>Training</strong></a></li>
+
+                  <li class="dropdown-submenu">
+                    <a class="dropdown-item" href="#">Achievements   ></a>
+                    <ul class="dropdown-menu">
+                      <li><a class="dropdown-item" href="#"><strong>Achievements</strong></a></li>
+                      <li><a class="dropdown-item" href="#"><strong>Awards</strong></a></li>
+                      <li><a class="dropdown-item" href="#"><strong>In House Developement</strong></a></li>
+                      <li><a class="dropdown-item" href="#"><strong>Fire Prevention</strong></a></li>
+                    </ul>
+                  </li>
+
+                  <li class="dropdown-submenu">
+                    <a class="dropdown-item" href="#">Data   ></a>
+                    <ul class="dropdown-menu">
+                      <li><a class="dropdown-item" href="#"><strong>RSP</strong></a></li>
+                      <li><a class="dropdown-item" href="#"><strong>M&P</strong></a></li>
+                      <li><a class="dropdown-item" href="#"><strong>PWP</strong></a></li>
+                    </ul>
+                  </li>
+
+                  <li class="dropdown-submenu">
+                    <a class="dropdown-item" href="#">Issues and Complaints   ></a>
+                    <ul class="dropdown-menu">
+                      <li><a class="dropdown-item" href="#"><strong>POH Related Complaints</strong></a></li>
+                      <li><a class="dropdown-item" href="#"><strong>KPA Related Issues</strong></a></li>
+                    </ul>
+                  </li>
+                  <li class="dropdown-submenu">
+                    <a class="dropdown-item" href="#">Instructions and Guidelines   ></a>
+                    <ul class="dropdown-menu">
+                      <li><a class="dropdown-item" href="#"><strong>RDSO/RB Guidelines</strong></a></li>
+                      <li><a class="dropdown-item" href="#"><strong>HQ/HP Instruction</strong></a></li>
+                    </ul>
+                  </li>
+                  <li><a class="dropdown-item" href="#"><strong>Contact Details for all memo shed</strong></a></li>
+                  <li><a class="dropdown-item" href="#"><strong>VC/ Online Meetings</strong></a></li>
+
+                  <li class="dropdown-submenu">
+                    <a class="dropdown-item" href="#">Safety   ></a>
+                    <ul class="dropdown-menu">
+                      <li><a class="dropdown-item" href="#"><strong>Internal Visit/Audit</strong></a></li>
+                      <li><a class="dropdown-item" href="#"><strong>Safety Drives</strong></a></li>
+                    </ul>
+                  </li>
+                  <li><a class="dropdown-item" href="#"><strong>Proposed Umbrella Works</strong></a></li>
+
+
+                </ul>
+              </li>
+
+              <li class="nav-item">
+                <a class="nav-link" aria-disabled="true" href="#ppol">People</a>
+              </li>
+              <li class="nav-item dropdown">
+                <a
+                  class="nav-link dropdown-toggle"
+                  href="#"
+                  role="button"
+                  data-bs-toggle="dropdown"
+                  aria-expanded="false"
+                >
+                  Resources
+                </a>
+                <ul class="dropdown-menu">
+                  <li><a class="dropdown-item" href="#fullx">Android App</a></li>
+                  <li>
+                    <a class="dropdown-item" href="#fullx">Full Handout</a>
+                  </li>
+                </ul>
+              </li>
+              <li class="nav-item dropdown">
+                <a
+                  class="nav-link dropdown-toggle"
+                  href="#"
+                  role="button"
+                  data-bs-toggle="dropdown"
+                  aria-expanded="false"
+                >
+                  Extras
+                </a>
+                <ul class="dropdown-menu">
+                  <li><a class="dropdown-item" href="#glry">Gallery </a></li>
+                  <li>
+                    <a class="dropdown-item" href="#hede"
+                      >Contact us</a
+                    >
+                  </li>
+                </ul>
+              </li>
+            </ul>
+            <form class="d-flex" role="search">
+                      <input id="searchInput" class="form-control col-3 me-3" type="search" placeholder="Search" aria-label="Search">
+                      <button id="searchButton" class="btn col-2" type="submit">🔍</button>
+                    </form>
+            
+          </div>
+        </div>
+      </nav>
+    </div>
+      
+    
+  </div>
+
+  <div class="header-top " style="background-color: #ED1D24;">
+    <div class="container">
+      <marquee class="font_12px" style="color:rgb(255, 255, 255); background-color:rgba(255, 255, 255, 0);font-family:tahoma;text-decoration:none;" direction="left" width="894" height="19" loop="true" scrollamount="10" onmouseover="this.scrollAmount='0'" onmouseout="this.scrollAmount='10'">•This is the Portal of Indian Railways, developed with an objective to enable a single window access to information and services being provided •            • Contribute your rendering of the National Anthem of India at : https://rashtragaan.in/   </marquee>
+    </div></div>
+</header>
+
+<h1 class="text-center mb-4">Our Gallery</h1>
+<div class="gallery-container" id="gallery"></div>
+
+<div class="custom-modal" id="imageModal">
+    <button class="close-btn" onclick="closeModal()">✖</button>
+    <button class="nav-btn prev-btn" onclick="prevImage()">❮</button>
+    <img id="modalImage" src="" alt="Enlarged Image">
+    <button class="nav-btn next-btn" onclick="nextImage()">❯</button>
+    <div class="zoom-controls">
+        <button class="zoom-btn" onclick="zoomIn()"><i class="fas fa-search-plus"></i></button>
+        <button class="zoom-btn" onclick="zoomOut()"><i class="fas fa-search-minus"></i></button>
+    </div>
+</div>
+
+</div>
+
+ <script>
+        let currentIndex = 0;
+        const imageCount = 14; // Set total number of images
+        const imageFolder = "/assets/images/gallery/"; // Change this to the folder where images are stored
+        const images = Array.from({ length: imageCount }, (_, i) => `${imageFolder}${i + 1}.jpg`);
+        
+        function loadGallery() {
+            const gallery = document.getElementById("gallery");
+            images.forEach((src, index) => {
+                const imgWrapper = document.createElement("div");
+                imgWrapper.classList.add("gallery-item");
+                imgWrapper.setAttribute("data-bs-toggle", "modal");
+                imgWrapper.setAttribute("data-bs-target", "#imageModal");
+                imgWrapper.onclick = () => openModal(index);
+                imgWrapper.innerHTML = `<img src="${src}" alt="Gallery Image ${index + 1}">`;
+                gallery.appendChild(imgWrapper);
+            });
+        }
+
+        function openModal(index) {
+            currentIndex = index;
+            zoomLevel = 1;
+            updateModalImage();
+            document.getElementById('imageModal').classList.add('show');
+        }
+
+        function closeModal() {
+            document.getElementById('imageModal').classList.remove('show');
+        }
+
+        function prevImage() {
+            currentIndex = (currentIndex === 0) ? images.length - 1 : currentIndex - 1;
+            zoomLevel = 1;
+            updateModalImage();
+        }
+
+        function nextImage() {
+            currentIndex = (currentIndex === images.length - 1) ? 0 : currentIndex + 1;
+            zoomLevel = 1;
+            updateModalImage();
+        }
+
+        function zoomIn() {
+            zoomLevel += 0.2;
+            updateModalImage();
+        }
+
+        function zoomOut() {
+            zoomLevel = Math.max(1, zoomLevel - 0.2);
+            updateModalImage();
+        }
+
+        function updateModalImage() {
+            const modalImage = document.getElementById('modalImage');
+            modalImage.src = images[currentIndex];
+            modalImage.style.transform = `scale(${zoomLevel})`;
+        }
+
+        loadGallery();
+    </script>
+</body>
+</html>

@@ -17,54 +17,76 @@
     <link href="assets/css/stylesheet.css" rel="stylesheet" />
     <link href="assets/css/accessibility-style.css" rel="stylesheet" />
     <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.7.107/pdf.min.js"></script>
-
-    
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/lightbox2/2.11.3/css/lightbox.min.css" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" rel="stylesheet">
   </head>
   <style>
-    body { font-family: Arial, sans-serif; margin: 0; padding: 20px;  }
-    .gallery-container { 
+    body {
+        font-family: Arial, sans-serif;
+        margin: 0;
+    }
+    .main-wrapper {
+        background-color: #fff;
+        height: fit-content;
+    }
+    .gallery-container {
+        padding: 20px; /* Apply padding only to the gallery container */
         display: grid;
         grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
         gap: 10px;
         justify-content: center;
+        font-family: 'Roboto', sans-serif; /* Use a better font for the gallery */
     }
-    .gallery-item { 
-        cursor: pointer; 
-        transition: transform 0.3s; 
-        overflow: hidden; 
+    .gallery-item {
+        cursor: pointer;
+        transition: transform 0.3s;
+        overflow: hidden;
         border-radius: 8px;
     }
-    .gallery-item:hover { transform: scale(1.05); }
-    .gallery-item img { 
-        width: 100%; 
-        height: 250px; 
-        object-fit: cover; 
-        border-radius: 8px; 
+    .gallery-item:hover {
+        transform: scale(1.05);
     }
-    .custom-modal { 
+    .gallery-item img {
+        width: 100%;
+        height: 250px;
+        object-fit: cover;
+        border-radius: 8px;
+    }
+    .custom-modal {
         display: none;
         position: fixed;
-        top: 0; left: 0;
-        width: 100vw; height: 100vh;
+        top: 0;
+        left: 0;
+        width: 100vw;
+        height: 100vh;
         background: rgba(0, 0, 0, 0.8);
         justify-content: center;
         align-items: center;
+        z-index: 1000;
+        box-sizing: border-box;
     }
-    .custom-modal.show { display: flex; }
-    .custom-modal img { 
+    .custom-modal.show {
+        display: flex;
+    }
+    .custom-modal img {
         max-width: 90vw;
         max-height: 90vh;
         border-radius: 8px;
         transition: transform 0.3s;
+        z-index: 2;
     }
     .custom-modal .close-btn {
         position: absolute;
-        top: 20px; right: 20px;
+        top: 20px;
+        right: 20px;
         background: none;
         border: none;
         font-size: 30px;
         color: white;
         cursor: pointer;
+        z-index: 3;
     }
     .custom-modal .nav-btn {
         position: absolute;
@@ -75,9 +97,14 @@
         font-size: 40px;
         color: white;
         cursor: pointer;
+        z-index: 3;
     }
-    .custom-modal .prev-btn { left: 10px; }
-    .custom-modal .next-btn { right: 10px; }
+    .custom-modal .prev-btn {
+        left: 10px;
+    }
+    .custom-modal .next-btn {
+        right: 10px;
+    }
     .custom-modal .zoom-controls {
         position: absolute;
         bottom: 20px;
@@ -85,18 +112,31 @@
         transform: translateX(-50%);
         display: flex;
         gap: 15px;
+        z-index: 3;
     }
     .custom-modal .zoom-btn {
-        background: none;
+        background: #fff;
         border: none;
-        font-size: 30px;
-        color: white;
+        border-radius: 50%;
+        width: 50px;
+        height: 50px;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        font-size: 20px;
+        color: #333;
         cursor: pointer;
+        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        transition: transform 0.2s, background-color 0.2s;
+    }
+    .custom-modal .zoom-btn:hover {
+        transform: scale(1.1);
+        background-color: #f0f0f0;
     }
 </style>
 
   <body>
-    <div class="main-wrapper" style="background-color: #fff; height: fit-content; padding:20px">
+    <div class="main-wrapper">
 <div class="header-top px-2">
     <div class="container">
       <div class="row">
@@ -403,9 +443,10 @@
     </div></div>
 </header>
 
-<h1 class="text-center mb-4">Our Gallery</h1>
+<h1 class="text-center mb-4 animate__animated animate__fadeInDown">Our Gallery</h1>
 <div class="gallery-container" id="gallery"></div>
 
+<!-- Custom Modal for Enhanced Features -->
 <div class="custom-modal" id="imageModal">
     <button class="close-btn" onclick="closeModal()">✖</button>
     <button class="nav-btn prev-btn" onclick="prevImage()">❮</button>
@@ -417,67 +458,77 @@
     </div>
 </div>
 
+<script src="https://cdnjs.cloudflare.com/ajax/libs/lightbox2/2.11.3/js/lightbox.min.js"></script>
+<script>
+    const imageCount = 14; // Set total number of images
+    const imageFolder = "/assets/images/gallery/"; // Change this to the folder where images are stored
+    const images = Array.from({ length: imageCount }, (_, i) => `${imageFolder}${i + 1}.jpg`);
+    let currentIndex = 0;
+    let zoomLevel = 1;
+
+    function loadGallery() {
+        const gallery = document.getElementById("gallery");
+        images.forEach((src, index) => {
+            const imgWrapper = document.createElement("div");
+            imgWrapper.classList.add("gallery-item", "animate__animated", "animate__zoomIn");
+            imgWrapper.onclick = () => openModal(index);
+            imgWrapper.innerHTML = `<img src="${src}" alt="Gallery Image ${index + 1}">`;
+            gallery.appendChild(imgWrapper);
+        });
+    }
+
+    function openModal(index) {
+        currentIndex = index;
+        zoomLevel = 1;
+        updateModalImage();
+        const modal = document.getElementById('imageModal');
+        modal.classList.add('show');
+        modal.addEventListener('click', closeOnBackgroundClick); // Add event listener for background click
+    }
+
+    function closeModal() {
+        const modal = document.getElementById('imageModal');
+        modal.classList.remove('show');
+        modal.removeEventListener('click', closeOnBackgroundClick); // Remove event listener
+    }
+
+    function closeOnBackgroundClick(event) {
+        const modalImage = document.getElementById('modalImage');
+        if (!modalImage.contains(event.target) && !event.target.classList.contains('nav-btn') && !event.target.classList.contains('zoom-btn') && !event.target.classList.contains('close-btn')) {
+            closeModal();
+        }
+    }
+
+    function prevImage() {
+        currentIndex = (currentIndex === 0) ? images.length - 1 : currentIndex - 1;
+        zoomLevel = 1;
+        updateModalImage();
+    }
+
+    function nextImage() {
+        currentIndex = (currentIndex === images.length - 1) ? 0 : currentIndex + 1;
+        zoomLevel = 1;
+        updateModalImage();
+    }
+
+    function zoomIn() {
+        zoomLevel += 0.2;
+        updateModalImage();
+    }
+
+    function zoomOut() {
+        zoomLevel = Math.max(1, zoomLevel - 0.2);
+        updateModalImage();
+    }
+
+    function updateModalImage() {
+        const modalImage = document.getElementById('modalImage');
+        modalImage.src = images[currentIndex];
+        modalImage.style.transform = `scale(${zoomLevel})`;
+    }
+
+    loadGallery();
+</script>
 </div>
-
- <script>
-        let currentIndex = 0;
-        const imageCount = 14; // Set total number of images
-        const imageFolder = "/assets/images/gallery/"; // Change this to the folder where images are stored
-        const images = Array.from({ length: imageCount }, (_, i) => `${imageFolder}${i + 1}.jpg`);
-        
-        function loadGallery() {
-            const gallery = document.getElementById("gallery");
-            images.forEach((src, index) => {
-                const imgWrapper = document.createElement("div");
-                imgWrapper.classList.add("gallery-item");
-                imgWrapper.setAttribute("data-bs-toggle", "modal");
-                imgWrapper.setAttribute("data-bs-target", "#imageModal");
-                imgWrapper.onclick = () => openModal(index);
-                imgWrapper.innerHTML = `<img src="${src}" alt="Gallery Image ${index + 1}">`;
-                gallery.appendChild(imgWrapper);
-            });
-        }
-
-        function openModal(index) {
-            currentIndex = index;
-            zoomLevel = 1;
-            updateModalImage();
-            document.getElementById('imageModal').classList.add('show');
-        }
-
-        function closeModal() {
-            document.getElementById('imageModal').classList.remove('show');
-        }
-
-        function prevImage() {
-            currentIndex = (currentIndex === 0) ? images.length - 1 : currentIndex - 1;
-            zoomLevel = 1;
-            updateModalImage();
-        }
-
-        function nextImage() {
-            currentIndex = (currentIndex === images.length - 1) ? 0 : currentIndex + 1;
-            zoomLevel = 1;
-            updateModalImage();
-        }
-
-        function zoomIn() {
-            zoomLevel += 0.2;
-            updateModalImage();
-        }
-
-        function zoomOut() {
-            zoomLevel = Math.max(1, zoomLevel - 0.2);
-            updateModalImage();
-        }
-
-        function updateModalImage() {
-            const modalImage = document.getElementById('modalImage');
-            modalImage.src = images[currentIndex];
-            modalImage.style.transform = `scale(${zoomLevel})`;
-        }
-
-        loadGallery();
-    </script>
 </body>
 </html>
